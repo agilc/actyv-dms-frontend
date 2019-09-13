@@ -1,5 +1,6 @@
 #app-root {
   height: 100vh;
+  background-color: #eaeaea;
 }
 
 .w-30 {
@@ -8,4 +9,29 @@
 
 .w-40 {
   width: 40%;
+}
+
+.app-header header {
+  position: inherit;
+}
+
+.flex-grow-5{
+  flex-grow: 5;
+}
+
+.flex-grow-6{
+  flex-grow: 6;
+}
+
+.module-side-content .profile-settings-sidebar {
+  background-color: #eaeaea;
+  cursor: pointer;
+}
+
+.module-side-content .active {
+  background-color: white;
+}
+
+.container-button-wrapper {
+  border-bottom: 1px solid #eaeaea;
 }
