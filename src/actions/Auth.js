@@ -8,11 +8,13 @@ import {
   SIGNOUT_USER_SUCCESS, 
   SIGNUP_USER,
   SIGNUP_USER_SUCCESS,
-  SHOW_AUTH_MESSAGE
+  SHOW_AUTH_MESSAGE,
+  USER_LIST,
+  USER_LIST_SUCCESS,
+  USER_LIST_FAILED
 } from 'constants/ActionTypes';
 
 export const userSignUp = (user) => {
-  alert();
   return {
     type: SIGNUP_USER,
     payload: user
@@ -51,5 +53,24 @@ export const setInitUrl = (url) => {
   return {
     type: INIT_URL,
     payload: url
+  };
+};
+
+export const getUserList = () => {
+  return {
+    type: USER_LIST
+  }
+};
+
+export const userListSuccess = (users) => {
+  return {
+    type: USER_LIST_SUCCESS,
+    payload: users
+  };
+};
+
+export const userListFailed = () => {
+  return {
+    type: USER_LIST_FAILED
   };
 };

@@ -8,12 +8,15 @@ import {
   SIGNIN_GOOGLE_USER,
   SIGNIN_USER,
   SIGNOUT_USER,
-  SIGNUP_USER
+  SIGNUP_USER,
+  USER_LIST
 } from "constants/ActionTypes";
 import {
   userSignUpSuccess,
   showAuthMessage,
-  userSignInSuccess
+  userSignInSuccess,
+  userListSuccess,
+  userListFailed
 } from "actions/Auth";
 
 import { apiURL } from "constants/App";
@@ -100,6 +103,21 @@ function* signInUserWithEmailPassword({ payload }) {
   }
 }
 
+function* listUserRequest() {
+  try {
+    const requestURL = `${apiURL}user`;
+    const users = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    yield put(userListSuccess(users));
+  } catch (error) {
+    yield put(userListFailed(error));
+  }
+}
+
 export function* createUserAccount() {
   yield takeEvery(SIGNUP_USER, createUserWithEmailPassword);
 }
@@ -108,9 +126,14 @@ export function* signInUser() {
   yield takeEvery(SIGNIN_USER, signInUserWithEmailPassword);
 }
 
+export function* listUser() {
+  yield takeEvery(USER_LIST, listUserRequest);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(createUserAccount),
-    fork(signInUser)
+    fork(signInUser),
+    fork(listUser)
   ]);
 }

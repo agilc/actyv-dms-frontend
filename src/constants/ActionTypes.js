@@ -9,3 +9,34 @@ export const SIGNIN_USER = "signin_user";
 export const SIGNIN_USER_SUCCESS = "signin_user_success";
 export const SIGNOUT_USER = "signout_user";
 export const SIGNOUT_USER_SUCCESS = "signout_user_success";
+export const USER_LIST = "user_list";
+export const USER_LIST_SUCCESS = "user_list_success";
+export const USER_LIST_FAILED = "user_list_failed";
+
+// Categories Const
+export const LIST_CATEGORIES = "list_categories";
+export const LIST_CATEGORIES_SUCCESS = "list_categories_success";
+export const LIST_CATEGORIES_FAILED = "list_categories_failed";
+export const ADD_CATEGORY = "add_category";
+export const ADD_CATEGORY_SUCCESS = "add_category_success";
+export const ADD_CATEGORY_FAILED = "add_category_failed";
+export const EDIT_CATEGORY = "edit_category";
+export const EDIT_CATEGORY_SUCCESS = "edit_category_success";
+export const EDIT_CATEGORY_FAILED = "edit_category_failed";
+export const DELETE_CATEGORY = "delete_category";
+export const DELETE_CATEGORY_SUCCESS = "delete_category_success";
+export const DELETE_CATEGORY_FAILED = "delete_category_failed";
+
+// Department Const
+export const LIST_DEPARTMENT = "list_department";
+export const LIST_DEPARTMENT_SUCCESS = "list_department_success";
+export const LIST_DEPARTMENT_FAILED = "list_department_failed";
+export const ADD_DEPARTMENT = "add_department";
+export const ADD_DEPARTMENT_SUCCESS = "add_department_success";
+export const ADD_DEPARTMENT_FAILED = "add_department_failed";
+export const EDIT_DEPARTMENT = "edit_department";
+export const EDIT_DEPARTMENT_SUCCESS = "edit_department_success";
+export const EDIT_DEPARTMENT_FAILED = "edit_department_failed";
+export const DELETE_DEPARTMENT = "delete_department";
+export const DELETE_DEPARTMENT_SUCCESS = "delete_department_success";
+export const DELETE_DEPARTMENT_FAILED = "delete_department_failed";

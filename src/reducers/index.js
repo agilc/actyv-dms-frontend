@@ -1,13 +1,17 @@
 import { combineReducers } from "redux";
 import { connectRouter } from "connected-react-router";
 import Auth from "./Auth";
+import Category  from "./Category";
+import Department  from "./Department";
 // import { SIGNOUT_USER_SUCCESS } from "constants/ActionTypes";
 import { createBrowserHistory } from "history";
 
 const history = createBrowserHistory();
 const appReducer = combineReducers({
   router: connectRouter(history),
-  auth: Auth
+  auth: Auth,
+  category: Category,
+  department: Department
 });
 
 const rootReducer = (state, action) => {

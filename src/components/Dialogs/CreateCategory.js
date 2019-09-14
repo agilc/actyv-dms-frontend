@@ -19,8 +19,18 @@ class CreateCategory extends Component {
     }
   }
 
-  handleDialogSave = () => {
+  componentDidMount(){
+    let { selectedCategory } = this.props;
+    selectedCategory && this.setState({name: selectedCategory.name});
+    selectedCategory && this.setState({description: selectedCategory.description});
+  }
 
+  handleDialogSave = () => {
+    let dataObj = {
+      name: this.state.name,
+      description: this.state.description
+    }
+    this.props.successFunction(dataObj);
   }
 
   handleDialogCancel = () => {
@@ -39,7 +49,7 @@ class CreateCategory extends Component {
         >
           <DialogTitle className="pb-0">
             <div className="col-10">
-              <h4><b>New Category</b></h4>
+              <h4><b>{`${this.props.selectedCategory ? "Edit": "New"} Category`}</b></h4>
             </div>
           </DialogTitle>
           <DialogContent>
@@ -68,10 +78,10 @@ class CreateCategory extends Component {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleDialogCancel} className="text-muted">
+            <Button onClick={this.handleDialogCancel} className="bg-light text-dark">
               NO
             </Button>
-            <Button onClick={this.handleDialogSave} className="text-black">
+            <Button onClick={this.handleDialogSave} className="bg-dark text-white">
               YES
             </Button>
           </DialogActions>

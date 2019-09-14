@@ -7,7 +7,9 @@ import {
   Dialog, 
   Button,
   Slide,
-  MenuItem
+  MenuItem,
+  Select,
+  InputLabel
 } from "@material-ui/core";
 
 class CreateDepartment extends Component {
@@ -15,12 +17,35 @@ class CreateDepartment extends Component {
     super();
     this.state={
       name: "",
-      description: ""
+      description: "",
+      admins: [],
+      users: []
+    }
+  }
+
+  componentDidMount(){
+    if(this.props.selectedDepartment){
+      let { name, description, admins, users } = this.props.selectedDepartment;
+      this.setState({
+        name: name,
+        description: description,
+        admins: admins,
+        users: users
+      });
+      this.forceUpdate()
     }
   }
 
   handleDialogSave = () => {
+    let dataObj = {
+      name: this.state.name,
+      description: this.state.description,
+      createdBy: this.props.appUser,
+      admins: this.state.admins,
+      users: this.state.users
+    }
 
+    this.props.createDepartment(dataObj);
   }
 
   handleDialogCancel = () => {
@@ -28,6 +53,7 @@ class CreateDepartment extends Component {
   }
 
   render() {
+    let { userList } = this.props;
     return(
       <div>
         <Dialog 
@@ -66,12 +92,48 @@ class CreateDepartment extends Component {
                 className="mt-0"
               />
             </div>
+            <div className="col-10 pt-3">
+              <InputLabel htmlFor="name-multiple">Select Admins</InputLabel>
+              <Select
+                multiple
+                value={this.state.admins}
+                onChange={ e => this.setState({ admins: e.target.value })}
+                fullWidth
+              >
+                {userList.map(user => (
+                  <MenuItem
+                    key={user._id}
+                    value={user}
+                  >
+                    {user.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
+            <div className="col-10 pt-3">
+              <InputLabel htmlFor="name-multiple">Select Users</InputLabel>
+              <Select
+                multiple
+                value={this.state.users}
+                onChange={ e => this.setState({ users: e.target.value })}
+                fullWidth
+              >
+                {userList.map(user => (
+                  <MenuItem
+                    key={user._id}
+                    value={user}
+                  >
+                    {user.name}
+                  </MenuItem>
+                ))}
+              </Select>
+            </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleDialogCancel} className="text-muted">
+            <Button onClick={this.handleDialogCancel} className="bg-light text-dark">
               NO
             </Button>
-            <Button onClick={this.handleDialogSave} className="text-black">
+            <Button onClick={this.handleDialogSave} className="bg-dark text-white">
               YES
             </Button>
           </DialogActions>

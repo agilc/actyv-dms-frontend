@@ -52,10 +52,10 @@ class FileUpload extends Component {
             </div>
           </DialogContent>
           <DialogActions>
-            <Button onClick={this.handleDialogCancel} className="text-muted">
+            <Button onClick={this.handleDialogCancel} className="bg-light text-dark">
               NO
             </Button>
-            <Button onClick={this.handleDialogSave} className="text-black">
+            <Button onClick={this.handleDialogSave} className="bg-dark text-white">
               YES
             </Button>
           </DialogActions>
