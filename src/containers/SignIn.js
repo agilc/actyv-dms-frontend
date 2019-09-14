@@ -5,6 +5,10 @@ import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
 
+import {
+  userSignIn
+} from 'actions/Auth';
+
 class SignIn extends React.Component {
   constructor() {
     super();
@@ -47,10 +51,10 @@ class SignIn extends React.Component {
 
                   <div className="mb-3 d-flex align-items-center justify-content-between">
                     <Button 
-                      // onClick={() => {
-                      //   this.props.showAuthLoader();
-                      //   this.props.userSignIn({email, password});
-                      // }} 
+                      onClick={() => {
+                        // this.props.showAuthLoader();
+                        this.props.userSignIn({email, password});
+                      }} 
                       variant="contained" color="primary"
                     >
                       SignIn
@@ -75,8 +79,10 @@ class SignIn extends React.Component {
 }
 
 const mapStateToProps = ({auth}) => {
-  
+  const { authUser } = auth;
+  return { authUser }
 };
 
 export default connect(mapStateToProps, {
+  userSignIn
 })(SignIn);

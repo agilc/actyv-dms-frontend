@@ -5,6 +5,11 @@ import Button from '@material-ui/core/Button';
 import {Link} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 
+import {
+  userGoogleSignIn,
+  userSignUp
+} from 'actions/Auth';
+
 class SignUp extends React.Component {
   constructor() {
     super();
@@ -57,13 +62,10 @@ class SignUp extends React.Component {
 
                   <div className="mb-3 d-flex align-items-center justify-content-between">
                     <Button 
-                      // onClick={() => {
-                      //   this.props.showAuthLoader();
-                      //   this.props.userSignIn({email, password});
-                      // }} 
+                      onClick={() => this.props.userSignUp({email, password, name}) }
                       variant="contained" color="primary"
                     >
-                      Refister
+                      Register
                     </Button>
                     <div className="d-flex flex-column">
                       <Link to="/signin">
@@ -85,4 +87,5 @@ const mapStateToProps = ({auth}) => {
 };
 
 export default connect(mapStateToProps, {
+  userSignUp
 })(SignUp);

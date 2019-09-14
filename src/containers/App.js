@@ -1,11 +1,38 @@
 import React, { Component } from 'react';
+import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
 import MainApp from "app/index";
+import { setInitUrl } from "../actions/Auth";
 import "assets/styles/index.js";
 
+const RestrictedRoute = ({ component: Component, authUser, ...rest }) => (
+  <Route
+    {...rest}
+    render={props =>
+      authUser ? (
+        <Component {...props} />
+      ) : (
+        <Redirect
+          to={{
+            pathname: "/signin",
+            state: { from: props.location }
+          }}
+        />
+      )
+    }
+  />
+);
+
 class App extends Component {
+
+  componentDidMount() {
+    if (this.props.initURL === "") {
+      this.props.setInitUrl(this.props.history.location.pathname);
+    }
+  }
   
   render(){
     const {
@@ -17,19 +44,24 @@ class App extends Component {
     } = this.props;
 
     if (location.pathname === "/") {
-      // if (authUser === null) {
-      return <Redirect to={"/app"} />;
-      // } else if (initURL === "" || initURL === "/" || initURL === "/signin") {
-      //   return <Redirect to={"/app/chatbox"} />;
-      // } else {
-      //   return <Redirect to={initURL} />;
-      // }
+      if (authUser === null) {
+      return <Redirect to={"/signin"} />;
+      } else if (initURL === "" || initURL === "/" || initURL === "/signin") {
+        return <Redirect to={"/app/myfiles"} />;
+      } else {
+        return <Redirect to={initURL} />;
+      }
     }
 
     return (
       <div className="app-main">
         <Switch>
-          <Route path="/app" component={MainApp} />
+          <RestrictedRoute
+              path={`${match.url}app`}
+              authUser={authUser}
+              component={MainApp}
+            />
+          {/* <Route path="/app" component={MainApp} /> */}
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
         </Switch>
@@ -38,4 +70,18 @@ class App extends Component {
   }
 }
 
-export default App;
+const mapStateToProps = ({ auth }) => {
+
+  const { authUser, initURL } = auth;
+  return {
+    authUser,
+    initURL
+  };
+};
+
+export default connect(
+  mapStateToProps,
+  { 
+    setInitUrl
+  }
+)(App);

@@ -1,4 +1,4 @@
-export const apiURL = process.env.REACT_APP_ZOKO_APP_WEB_API;
+export const apiURL = process.env.REACT_APP_API_URL;
 export const socketUrl = process.env.REACT_APP_ZOKO_SOCKET_URL;
 export const firebaseApiKey = process.env.REACT_APP_FIREBASE_API_KEY;
 export const firebaseAuthDomain = process.env.REACT_APP_FIREBASE_AUTH_DOMAIN;
