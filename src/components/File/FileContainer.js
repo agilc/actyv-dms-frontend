@@ -71,9 +71,9 @@ class FileContainer extends React.Component {
       this.props.myfilesFetchedIndicators.createFileFolder)
       )
     {
-      let dataObj = {
-        parentId: this.state.selectedFolderArray[this.state.selectedFolderArray.length-1]
-      }
+      let dataObj = {};
+      if(this.state.selectedFolderArray.length > 0)
+        dataObj = { parentId: this.state.selectedFolderArray[this.state.selectedFolderArray.length-1]._id};
 
       this.state.container && (dataObj.container = this.state.container);
       this.state.containerId && (dataObj.containerId = this.state.containerId);
@@ -123,6 +123,7 @@ class FileContainer extends React.Component {
       let parentFolder = selectedFolderArray[selectedFolderArray.length -1 ];
       data.parentId = parentFolder._id;
     }
+    data.createdBy = this.props.appUser;
 
     this.state.containerId && (data.containerId = this.state.containerId);
     this.props.createFileFolder(data);
@@ -260,7 +261,7 @@ class FileContainer extends React.Component {
             <MenuItem onClick={this.checkInFileDialog}>CheckIn</MenuItem>
           }
           </Menu>
-        <div className="d-flex file-list-wrapper bg-white">
+        <div className="d-flex file-list-wrapper bg-white flex-wrap">
           {
             this.props.fileFolderList && this.props.fileFolderList.map(item =>  this.getFileFolder(item) )
           }
@@ -324,14 +325,14 @@ class FileContainer extends React.Component {
             {
               this.state.selectedFile &&
               <div className="d-flex justify-content-end px-3 pt-3 container-button-wrapper flex-grow-1 pb-3">
-                <Button
+                {/* <Button
                   variant="contained"
                   color="primary"
                   className="mr-2"
                   onClick={() => { this.setState({fileUploadDialog: true}); }}
                 >
                   Save
-                </Button>
+                </Button> */}
               </div>
             }
           </Paper>
@@ -340,6 +341,7 @@ class FileContainer extends React.Component {
               this.fileListSection() 
               : <FileDetails 
                   file={this.state.selectedFile}
+                  categoryList={ this.props.categoryList }
                 />
           }
     

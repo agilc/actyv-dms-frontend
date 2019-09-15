@@ -7,7 +7,10 @@ import {
   LIST_FILE_FOLDER_FAILED,
   DELETE_FILE_FOLDER,
   DELETE_FILE_FOLDER_SUCCESS,
-  DELETE_FILE_FOLDER_FAILED
+  DELETE_FILE_FOLDER_FAILED,
+  EDIT_FILE_FOLDER,
+  EDIT_FILE_FOLDER_SUCCESS,
+  EDIT_FILE_FOLDER_FAILED
 } from 'constants/ActionTypes';
 
 const INIT_STATE = {
@@ -61,7 +64,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message,
+        // errorMessage: action.error.message,
         myfilesFetchingIndicators: {
           ...state.myfilesFetchingIndicators,
           createFileFolder: false
@@ -93,7 +96,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message
+        // errorMessage: action.error.message
       }      
     }
 
@@ -132,7 +135,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message,
+        // errorMessage: action.error.message,
         myfilesFetchingIndicators: {
           ...state.myfilesFetchingIndicators,
           deleteFileFolder: false
@@ -141,6 +144,27 @@ export default (state = INIT_STATE, action) => {
           ...state.myfilesFetchingIndicators,
           deleteFileFolder: false
         }
+      }      
+    }
+    case EDIT_FILE_FOLDER: {
+      return {
+        ...state, 
+        loader: true,
+        errorMessage: ""
+      }      
+    }
+
+    case EDIT_FILE_FOLDER_SUCCESS: {
+      return {
+        ...state, 
+        loader: false
+      }      
+    }
+
+    case EDIT_FILE_FOLDER_FAILED: {
+      return {
+        ...state, 
+        loader: false
       }      
     }
 

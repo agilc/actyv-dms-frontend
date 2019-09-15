@@ -1,5 +1,6 @@
 import {
   INIT_URL,
+  SHOW_MESSAGE,
   SIGNIN_GOOGLE_USER,
   SIGNIN_GOOGLE_USER_SUCCESS,
   SIGNIN_USER,
@@ -8,11 +9,11 @@ import {
   SIGNOUT_USER_SUCCESS, 
   SIGNUP_USER,
   SIGNUP_USER_SUCCESS,
-  SHOW_AUTH_MESSAGE,
   USER_LIST,
   USER_LIST_SUCCESS,
   USER_LIST_FAILED,
-  RESET_PASSWORD_LINK
+  RESET_PASSWORD_LINK,
+  HIDE_MESSAGE
 } from 'constants/ActionTypes';
 
 export const userSignUp = (user) => {
@@ -43,10 +44,17 @@ export const userSignInSuccess = (authUser) => {
   }
 };
 
-export const showAuthMessage = (message) => {
+export const showAlertMessage = (message, messageType) => {
   return {
-    type: SHOW_AUTH_MESSAGE,
-    payload: message
+    type: SHOW_MESSAGE,
+    message,
+    messageType
+  };
+};
+
+export const hideAlertMessage = () => {
+  return {
+    type: HIDE_MESSAGE
   };
 };
 

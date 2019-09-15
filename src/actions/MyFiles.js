@@ -7,7 +7,10 @@ import {
   LIST_FILE_FOLDER_FAILED,
   DELETE_FILE_FOLDER,
   DELETE_FILE_FOLDER_SUCCESS,
-  DELETE_FILE_FOLDER_FAILED
+  DELETE_FILE_FOLDER_FAILED,
+  EDIT_FILE_FOLDER,
+  EDIT_FILE_FOLDER_FAILED,
+  EDIT_FILE_FOLDER_SUCCESS
 } from 'constants/ActionTypes';
 
 export const createFileFolder = (data) => {
@@ -69,6 +72,27 @@ export const deleteFileFolderSuccess = (data) => {
 export const deleteFileFolderFailed = (data) => {
   return {
     type: DELETE_FILE_FOLDER_FAILED,
+    payload: data
+  };
+};
+
+export const editFileFolder = (data) => {
+  return {
+    type: EDIT_FILE_FOLDER,
+    payload: data
+  };
+};
+
+export const editFileFolderSuccess = (data) => {
+  return {
+    type: EDIT_FILE_FOLDER_SUCCESS,
+    payload: data
+  };
+};
+
+export const editFileFolderFailed = (data) => {
+  return {
+    type: EDIT_FILE_FOLDER_FAILED,
     payload: data
   };
 };

@@ -1,5 +1,7 @@
 //Auth const
 export const INIT_URL = "init_url";
+export const SHOW_MESSAGE = "show_message";
+export const HIDE_MESSAGE = "hide_message";
 export const SHOW_AUTH_MESSAGE = "show_auth_message";
 export const SIGNUP_USER = "signup_user";
 export const SIGNUP_USER_SUCCESS = "signup_user_success";
@@ -52,6 +54,9 @@ export const LIST_FILE_FOLDER_FAILED = "list_file_folder_failed";
 export const DELETE_FILE_FOLDER = "delete_file_folder";
 export const DELETE_FILE_FOLDER_SUCCESS = "delete_file_folder_success";
 export const DELETE_FILE_FOLDER_FAILED = "delete_file_folder_failed";
+export const EDIT_FILE_FOLDER = "edit_file_folder";
+export const EDIT_FILE_FOLDER_SUCCESS = "edit_file_folder_success";
+export const EDIT_FILE_FOLDER_FAILED = "edit_file_folder_failed";
 export const CHECKOUT_FILE = "checkout_file";
 export const CHECKOUT_FILE_SUCCESS = "checkout_file_success";
 export const CHECKOUT_FILE_FAILED = "checkout_file_failed";

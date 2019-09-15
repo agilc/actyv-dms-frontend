@@ -14,7 +14,8 @@ import {
 } from "constants/ActionTypes";
 import {
   userSignUpSuccess,
-  showAuthMessage,
+  showAlertMessage,
+  hideAlertMessage,
   userSignInSuccess,
   userListSuccess,
   userListFailed,
@@ -67,19 +68,18 @@ function* createUserWithEmailPassword({ payload }) {
       password
     );
     if (signUpUser.message) {
-      yield put(showAuthMessage(signUpUser.message));
+      yield put(showAlertMessage(signUpUser.message, "error"));
     } else {
       yield appSignIn(signUpUser.user, name);
       localStorage.setItem("user_id", signUpUser.user.uid);
       yield put(userSignUpSuccess(signUpUser.user));
     }
   } catch (error) {
-    yield put(showAuthMessage(error));
+    yield put(showAlertMessage(error, "error"));
   }
 }
 
 function* appSignIn(user, name) {
-  debugger;
   const requestURL = `${apiURL}user/authenticate`;
   const body = {
     authUserId: user.uid,
@@ -100,7 +100,7 @@ function* appSignIn(user, name) {
     yield put(userSignInSuccess(userData));
   } catch (error) {
     console.log("error",error);
-    yield put(showAuthMessage(error));
+    yield put(showAlertMessage(error, "error"));
   }
 }
 
@@ -113,7 +113,7 @@ function* signInUserWithEmailPassword({ payload }) {
       password
     );
     if (signInUser.message) {
-      yield put(showAuthMessage(signInUser.message));
+      yield put(showAlertMessage(signInUser.message, "error"));
     } else {
       yield appSignIn(signInUser.user);
       localStorage.setItem("user_id", signInUser.user.uid);
@@ -121,7 +121,7 @@ function* signInUserWithEmailPassword({ payload }) {
       yield put(userSignInSuccess(signInUser.user));
     }
   } catch (error) {
-    yield put(showAuthMessage(error));
+    yield put(showAlertMessage(error, "error"));
   }
 }
 
@@ -148,10 +148,10 @@ function* signOut() {
       localStorage.removeItem("appUser");
       yield put(userSignOutSuccess(signOutUser));
     } else {
-      yield put(showAuthMessage(signOutUser.message));
+      yield put(showAlertMessage(signOutUser.message, "error"));
     }
   } catch (error) {
-    yield put(showAuthMessage(error));
+    yield put(showAlertMessage(error, "error"));
   }
 }
 
@@ -162,7 +162,7 @@ function* resetPasswordLinkRequest({payload}) {
       payload
     );
   } catch (error) {
-    // yield put(showAuthMessage(error));
+    yield put(showAlertMessage(error, "error"));
   }
 }
 

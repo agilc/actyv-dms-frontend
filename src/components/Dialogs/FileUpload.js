@@ -20,7 +20,8 @@ class FileUpload extends Component {
     super();
     this.state = {
       fileUrl: "",
-      category: ""
+      category: "",
+      name: ""
     }
   }
 
@@ -144,7 +145,7 @@ class FileUpload extends Component {
                 />
               </div>
               <div className="col-10 mt-2">
-                <InputLabel htmlFor="name-multiple">Select Admins</InputLabel>
+                <InputLabel htmlFor="name-multiple">Select Category</InputLabel>
                 <Select
                   value={this.state.category}
                   onChange={ e => this.setState({ category: e.target.value })}

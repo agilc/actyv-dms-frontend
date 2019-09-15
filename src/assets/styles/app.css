@@ -1,5 +1,5 @@
 #app-root {
-  height: 100vh;
+  min-height: 100vh;
   background-color: #eaeaea;
 }
 
@@ -135,6 +135,7 @@ body {
 
 .file-list-parent {
   height: fit-content;
+  text-align: center;
 }
 
 .image-item {
@@ -160,13 +161,22 @@ body {
   margin-left: 10px;
   margin-top: 5px;
 }
-
+/* 
 .file-details-wrapper {
   height: calc(100vh - 175px);
+} */
+
+.file-details-wrapper img {
+  height: 50vh;
+  max-width: -webkit-fill-available;
 }
 
 .file-lock{
   position: absolute;
   color: red;
   right: 15px;
+}
+
+.container-button-wrapper{
+  min-height: 75px;
 }

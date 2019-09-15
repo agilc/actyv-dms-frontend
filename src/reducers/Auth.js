@@ -1,5 +1,7 @@
 import {
   INIT_URL,
+  SHOW_MESSAGE,
+  HIDE_MESSAGE,
   SIGNUP_USER_SUCCESS,
   SIGNIN_USER_SUCCESS,
   USER_LIST_SUCCESS,
@@ -12,6 +14,7 @@ const INIT_STATE = {
   alertMessage: '',
   showMessage: false,
   errorMessage: '',
+  messageType:'',
   initURL: '',
   authUser: localStorage.getItem('user_id'),
   appUser: JSON.parse(localStorage.getItem('appUser'))
@@ -24,6 +27,21 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         initURL: action.payload
+      }
+    }
+    case SHOW_MESSAGE: {
+      return {
+        ...state,
+        alertMessage: action.message,
+        showMessage: true,
+        loader: false,
+        messageType: action.messageType
+      }
+    }
+    case HIDE_MESSAGE: {
+      return {
+        ...state,
+        showMessage: false
       }
     }
     case SIGNUP_USER_SUCCESS: {

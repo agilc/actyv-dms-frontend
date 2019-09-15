@@ -5,12 +5,24 @@ import AppBar from "@material-ui/core/AppBar"
 import Avatar from "@material-ui/core/Avatar";
 import Toolbar from "@material-ui/core/Toolbar";
 
-import { userSignOut } from 'actions/Auth';
+import Alert from 'components/Alert/index';
+import { userSignOut, hideAlertMessage } from 'actions/Auth';
 
 class Header extends React.Component {
-  render() {
 
+  // componentDidUpdate(prevProps, prevState) {
+  //   if(!prevProps.showMessage && this.props.showMessage){
+  //       this.props.hideAlertMessage();
+  //   }
+  // }
+
+  render() {
     let { name, email } = this.props.appUser;
+    let { 
+      alertMessage, 
+      showMessage,
+      messageType 
+     } = this.props;
     return(
       <AppBar className="app-main-header">
         <Toolbar className="app-toolbar">
@@ -27,6 +39,15 @@ class Header extends React.Component {
         <ul className="header-notifications list-inline ml-auto"></ul>
           <div className="cursor-pointer" onClick={this.props.userSignOut}>Logout</div>
         </Toolbar>
+        {
+          showMessage === true &&
+          <Alert 
+            showMessage={showMessage ? true : false}
+            message={alertMessage}
+            messageType={messageType}
+          />
+        }
+        
       </AppBar>
     )
   }
@@ -34,16 +55,25 @@ class Header extends React.Component {
 
 const mapStateToProps = ({ auth }) => {
 
-  const { appUser } = auth;
+  const { 
+    appUser,
+    alertMessage, 
+    showMessage,
+    messageType 
+  } = auth;
 
   return {
-    appUser
+    appUser,
+    alertMessage, 
+    showMessage,
+    messageType 
   };
 };
 
 export default connect(
     mapStateToProps,
     {
-      userSignOut
+      userSignOut,
+      hideAlertMessage
     }
   )(Header);
