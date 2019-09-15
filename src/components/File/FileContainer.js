@@ -151,11 +151,12 @@ class FileContainer extends React.Component {
 
   onCotextMenuOpen = (event, item) => {
     event.preventDefault();
-    this.setState({ 
-      menuAnchorElement: event.currentTarget,
-      contextMenuOpen: true,
-      contextMenuSelectedItem: item
-    });
+    if(!item.checkedOutBy || item.checkedOutBy === this.props.appUser._id)
+      this.setState({ 
+        menuAnchorElement: event.currentTarget,
+        contextMenuOpen: true,
+        contextMenuSelectedItem: item
+      });
   }
 
   onContextMenuClose = () => {
@@ -187,7 +188,10 @@ class FileContainer extends React.Component {
   }
 
   checkOutFile = () => {
-    this.props.checkOutFile(this.state.contextMenuSelectedItem._id);
+    this.props.checkOutFile({
+      fileId: this.state.contextMenuSelectedItem._id, 
+      userId: this.props.appUser._id
+    });
     this.onContextMenuClose();
   }
 
@@ -225,7 +229,7 @@ class FileContainer extends React.Component {
           : <i className={`zmdi zmdi-file file-item`}></i>
         }
         {
-          item.checkoutStatus === 1 ? <i class="zmdi zmdi-lock-outline file-lock"></i> : ""
+          item.checkoutStatus === 1 ? <i className="zmdi zmdi-lock-outline file-lock"></i> : ""
         }
         <span>{item.name}</span>
       </div>

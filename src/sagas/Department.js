@@ -112,7 +112,7 @@ function* editDepartmentRequest({ payload }) {
 
 function* checkOutFileRequest({ payload }) {
   try {
-    const requestURL = `${apiURL}files/checkout/${payload}`;
+    const requestURL = `${apiURL}files/checkout/${payload.fileId}/${payload.userId}`;
     const file = yield call(request, requestURL, {
       method: 'GET',
       headers: {
