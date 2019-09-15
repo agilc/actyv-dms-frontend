@@ -83,3 +83,84 @@ body {
 .cursor-pointer {
   cursor: pointer;
 }
+
+.profile-image-wrapper{
+  background-size: contain;
+  border-radius: 50%;
+  overflow: hidden;
+  position: relative;
+  width: fit-content;
+}
+
+.profile-image-wrapper:hover .image-overlay{
+  visibility: visible;
+}
+
+.profile-image-wrapper .image-overlay{
+  background-color: rgba(0,0,0,.7);
+  border-radius: 50%;
+  bottom: 0;
+  color: #fff;
+  left: 0;
+  position: absolute;
+  right: 0;
+  text-align: center;
+  top: 0;
+  visibility: hidden;
+  box-sizing: border-box;
+  z-index: 1;
+  cursor: pointer;
+}
+
+.profile-image-wrapper .image-overlay span{
+  top: 25px;
+  position: relative;
+}
+
+.avatar-size{
+  height: 100px !important;
+  width: 100px !important;
+  line-height: 100px;
+}
+
+.file-item {
+  font-size: 75px;
+  cursor: pointer;
+  color: #a0abef;
+}
+
+.file-list-wrapper {
+  height: calc(100vh - 190px);
+}
+
+.file-list-parent {
+  height: fit-content;
+}
+
+.image-item {
+  height: 60px;
+  width: 50px;
+  border-radius: 5px;
+  margin-bottom: 7px;
+  cursor: pointer;
+}
+
+.breadcrumb-wrapper {
+  height: 25px;
+  margin: auto;
+  padding-left: 10px;
+}
+
+.breadcrumb-wrapper i {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.breadcrumb-wrapper h6 {
+  margin-left: 10px;
+  margin-top: 5px;
+}
+
+.file-details-wrapper {
+  height: calc(100vh - 175px);
+}

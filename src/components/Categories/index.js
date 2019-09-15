@@ -5,6 +5,8 @@ import moment from 'moment';
 
 import CreateCategory from 'components/Dialogs/CreateCategory';
 import ConfirmationDialog from 'components/Dialogs/ConfirmationDialog';
+import FileContainer from 'components/File/FileContainer';
+
 import { 
   listCategories,
   addCategory,
@@ -17,9 +19,10 @@ class Categories extends React.Component {
     super();
     this.state = {
       createCategoryDialog: false,
-      selectedCategory: null,
+      editingCategory: null,
       deleteConfirmation: false,
-      dialogSuccessData: {}
+      dialogSuccessData: {},
+      selectCategory: null
     }
   }
 
@@ -33,25 +36,25 @@ class Categories extends React.Component {
 
   editCategory = (item) => {
     this.setState({ 
-      selectedCategory: item, 
+      editingCategory: item, 
       createCategoryDialog: true
     });
   }
 
   createCategory = (data) => {
-    if(!this.state.selectedCategory){
+    if(!this.state.editingCategory){
       data.createdBy = this.props.appUser;
       this.props.addCategory(data);
     }
     else{
-      data.id = this.state.selectedCategory._id;
+      data.id = this.state.editingCategory._id;
       data.updatedBy = this.props.appUser;
       this.props.editCategory(data);
     }
 
     this.setState({ 
       createCategoryDialog: false,
-      selectedCategory: null
+      editingCategory: null
     })
   }
 
@@ -74,9 +77,17 @@ class Categories extends React.Component {
     this.setState({ deleteConfirmation: false });
   }
 
+  selectCategory = item => {
+    this.setState({ selectCategory: item });
+  }
+
   getListItem = (item) => {
     return (
-      <div key={item._id} className="d-flex justify-content-center pt-1 team-member-list-wrapper">
+      <div 
+        key={item._id} 
+        className="d-flex justify-content-center pt-1 team-member-list-wrapper"
+        onClick={() => this.selectCategory(item)}
+      >
         <div className="w-20 bg-white p-3 d-flex">
           <div className="text-black">{item.name}</div>
         </div>
@@ -103,9 +114,9 @@ class Categories extends React.Component {
     )
   }
 
-  render() {
+  getCategoryHome = () => {
     return(
-      <div>
+      <React.Fragment>
         <div className="module-main-content">
           {/* <Paper className="h-100"> */}
             <div className="d-flex justify-content-end p-3 container-button-wrapper">
@@ -115,7 +126,7 @@ class Categories extends React.Component {
                 className="mr-2"
                 onClick={() => { this.setState({createCategoryDialog: true}); }}
               >
-                Create Category
+                New Category
               </Button>
             </div>
             {/* <div className="p-3">
@@ -141,7 +152,7 @@ class Categories extends React.Component {
           this.state.createCategoryDialog && 
           <CreateCategory
             handleClose={()=> this.handleDialogCloseClose()}
-            selectedCategory={this.state.selectedCategory}
+            selectedCategory={this.state.editingCategory}
             successFunction={ this.createCategory }
           />
         }
@@ -154,6 +165,18 @@ class Categories extends React.Component {
           errorFunction = { () => this.deleteCategoryCancel()}
           successData = {this.state.dialogSuccessData }
         />
+      </React.Fragment>
+    )
+  }
+
+  render() {
+    return(
+      <div>
+        {
+          !this.state.selectCategory ? 
+            this.getCategoryHome()
+          : <FileContainer category={this.state.selectCategory._id}/>
+        }
       </div>
     )
   }

@@ -40,3 +40,14 @@ export const EDIT_DEPARTMENT_FAILED = "edit_department_failed";
 export const DELETE_DEPARTMENT = "delete_department";
 export const DELETE_DEPARTMENT_SUCCESS = "delete_department_success";
 export const DELETE_DEPARTMENT_FAILED = "delete_department_failed";
+
+// MyFiles Const
+export const CREATE_FILE_FOLDER = "create_file_folder";
+export const CREATE_FILE_FOLDER_SUCCESS = "create_file_folder_success";
+export const CREATE_FILE_FOLDER_FAILED = "create_file_folder_failed";
+export const LIST_FILE_FOLDER = "list_file_folder";
+export const LIST_FILE_FOLDER_SUCCESS = "list_file_folder_success";
+export const LIST_FILE_FOLDER_FAILED = "list_file_folder_failed";
+export const DELETE_FILE_FOLDER = "delete_file_folder";
+export const DELETE_FILE_FOLDER_SUCCESS = "delete_file_folder_success";
+export const DELETE_FILE_FOLDER_FAILED = "delete_file_folder_failed";

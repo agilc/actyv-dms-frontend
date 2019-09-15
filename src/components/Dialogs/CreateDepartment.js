@@ -24,15 +24,14 @@ class CreateDepartment extends Component {
   }
 
   componentDidMount(){
-    if(this.props.selectedDepartment){
-      let { name, description, admins, users } = this.props.selectedDepartment;
+    if(this.props.editDepartment){
+      let { name, description, admins, users } = this.props.editDepartment;
       this.setState({
         name: name,
         description: description,
         admins: admins,
         users: users
       });
-      this.forceUpdate()
     }
   }
 
@@ -40,7 +39,6 @@ class CreateDepartment extends Component {
     let dataObj = {
       name: this.state.name,
       description: this.state.description,
-      createdBy: this.props.appUser,
       admins: this.state.admins,
       users: this.state.users
     }

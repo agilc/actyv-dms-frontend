@@ -20,7 +20,14 @@ class CreateFolder extends Component {
   }
 
   handleDialogSave = () => {
+    let dataObj = {
+      name: this.state.name,
+      description: this.state.description,
+      type: "FOLDER",
+      container: this.props.container
+    }
 
+    this.props.createFolder(dataObj);
   }
 
   handleDialogCancel = () => {

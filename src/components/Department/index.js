@@ -1,29 +1,28 @@
 import React from "react";
-import { Paper, Button} from "@material-ui/core";
+import { Button} from "@material-ui/core";
 import { connect } from "react-redux";
 import moment from 'moment';
 
-import FileUpload from 'components/Dialogs/FileUpload';
-import CreateFolder from "components/Dialogs/CreateFolder";
 import CreateDepartment from "components/Dialogs/CreateDepartment";
 import ConfirmationDialog from 'components/Dialogs/ConfirmationDialog';
+import FileContainer from 'components/File/FileContainer';
 
 import { getUserList } from 'actions/Auth';
 import { 
   addDepartment, 
   listDepartment,
-  deleteDepartment
+  deleteDepartment,
+  editDepartment
 } from 'actions/Department';
 
 class Department extends React.Component {
   constructor() {
     super();
     this.state = {
-      fileUploadDialog: false,
-      createFolderDialog: false,
       createDepartmentDialog: false,
       editDepartment: null,
-      deleteConfirmation: false
+      deleteConfirmation: false,
+      selectedDepartment: null
     }
   }
 
@@ -32,31 +31,37 @@ class Department extends React.Component {
     this.props.listDepartment(this.props.appUser._id, this.props.appUser._id);
   }
 
-  handleDialogCloseClose = (type) => {
-    if(type === "file_upload"){
-      this.setState({fileUploadDialog: false});
-    }
-    else if(type === "new_folder"){
-      this.setState({createFolderDialog: false});
-    }
-    else{
-      this.setState({createDepartmentDialog: false});
-    }
-  }
-
-  createDepartment = (dataObj) => {
-    this.props.addDepartment(dataObj);
+  handleDialogCloseClose = () => {
     this.setState({createDepartmentDialog: false});
   }
 
-  editDepartmentDialog = (item) => {
+  createDepartment = (dataObj) => {
+    if(!this.state.editDepartment){
+      dataObj.createdBy = this.props.appUser;
+      this.props.addDepartment(dataObj);
+    }
+    else{
+      dataObj.id = this.state.editDepartment._id;
+      dataObj.updatedBy = this.props.appUser;
+      this.props.editDepartment(dataObj);
+    }
+    
+    this.setState({ 
+      createDepartmentDialog: false,
+      editDepartment: null
+    })
+  }
+
+  editDepartmentDialog = (event,item) => {
+    event.stopPropagation();
     this.setState({
       editDepartment: item,
       createDepartmentDialog: true
     });
   }
 
-  deleteDepartmentConfirmation = (item) => {
+  deleteDepartmentConfirmation = (event,item) => {
+    event.stopPropagation();
     let data = {
       id: item._id,
       user: this.props.appUser
@@ -76,9 +81,17 @@ class Department extends React.Component {
     this.setState({ deleteConfirmation: false });
   }
 
+  selectDepartment = (dept) => {
+    this.setState({ selectedDepartment: dept });
+  }
+
   getListItem = (item, role) => {
     return (
-      <div key={item._id} className="d-flex justify-content-center pt-1 team-member-list-wrapper">
+      <div 
+        key={item._id} 
+        className="d-flex justify-content-center pt-1 team-member-list-wrapper cursor-pointer" 
+        onClick={() => this.selectDepartment(item)}
+      >
         <div className="w-20 bg-white p-3 d-flex">
           <div className="text-black">{item.name}</div>
         </div>
@@ -95,11 +108,11 @@ class Department extends React.Component {
           <div>{moment(item.createdAt).format("DD-MMM-YYYY")}</div>
         </div>
         <div className="w-15 bg-white pt-3 d-flex">
-          <div className="pr-2 d-flex action-text cursor-pointer" onClick={() => this.editDepartmentDialog(item)}>
+          <div className="pr-2 d-flex action-text cursor-pointer" onClick={(event) => this.editDepartmentDialog(event,item)}>
             <i className="zmdi zmdi-edit p-1"/>
             <div>Edit</div>
           </div>
-          <div className="pr-2 d-flex action-text cursor-pointer" onClick={() => this.deleteDepartmentConfirmation(item)}>
+          <div className="pr-2 d-flex action-text cursor-pointer" onClick={(event) => this.deleteDepartmentConfirmation(event,item)}>
             <i className="zmdi zmdi-delete p-1"/>
             <div>Delete</div>
           </div>
@@ -108,28 +121,12 @@ class Department extends React.Component {
     )
   }
 
-  render() {
+  getDepartmentHome = () => {
     return(
-      <div>
+      <React.Fragment>
         <div className="module-main-content">
           {/* <Paper className="h-100"> */}
             <div className="d-flex justify-content-end p-3 container-button-wrapper">
-              <Button
-                variant="contained"
-                color="primary"
-                className="mr-2"
-                onClick={() => { this.setState({fileUploadDialog: true}); }}
-              >
-                Upload
-              </Button>
-              <Button
-                variant="contained"
-                color="primary"
-                className="mr-2"
-                onClick={() => { this.setState({createFolderDialog: true}); }}
-              >
-                New Folder
-              </Button>
               <Button
                 variant="contained"
                 color="primary"
@@ -159,21 +156,9 @@ class Department extends React.Component {
             </div>
         </div>
         {
-          this.state.fileUploadDialog && 
-          <FileUpload
-            handleClose={()=> this.handleDialogCloseClose("file_upload")}
-          />
-        }
-        {
-          this.state.createFolderDialog && 
-          <CreateFolder
-            handleClose={()=> this.handleDialogCloseClose("new_folder")}
-          />
-        }
-        {
           this.state.createDepartmentDialog && 
           <CreateDepartment
-            handleClose={()=> this.handleDialogCloseClose("new_dept")}
+            handleClose={()=> this.handleDialogCloseClose()}
             createDepartment= { this.createDepartment }
             userList={this.props.userList}
             appUser={this.props.appUser}
@@ -189,7 +174,18 @@ class Department extends React.Component {
           errorFunction = { () => this.deleteDepartmentCancel()}
           successData = {this.state.dialogSuccessData }
         />
+      </React.Fragment>
+    )
+  }
 
+  render() {
+    return(
+      <div>
+        {
+          !this.state.selectedDepartment ? 
+            this.getDepartmentHome()
+          : <FileContainer container="DEPARTMENT" containerId={this.state.selectedDepartment._id}/>
+        }
       </div>
     )
   }
@@ -211,6 +207,7 @@ export default connect(
     getUserList,
     addDepartment,
     listDepartment,
-    deleteDepartment
+    deleteDepartment,
+    editDepartment
   }
 )(Department);

@@ -52,11 +52,11 @@ class Home extends Component {
     let { selectedContainer } = this.state;
     return(
       <div className="animated slideInUpTiny animation-duration-3">
-        <div className="d-flex">
-          <div className="flex-grow-1 m-3">
+        <div className="row m-2">
+          <div className="col-3">
             {this.getSideNav()}
           </div>
-          <div className="flex-grow-6 m-3">
+          <div className="col-9">
             {
               selectedContainer === "myfiles" ? <MyFiles/>
               : selectedContainer === "department" ? <Department/>

@@ -74,3 +74,15 @@ export const userListFailed = () => {
     type: USER_LIST_FAILED
   };
 };
+
+export const userSignOut = () => {
+  return {
+    type: SIGNOUT_USER
+  };
+};
+export const userSignOutSuccess = (authUser) => {
+  return {
+    type: SIGNOUT_USER_SUCCESS,
+    payload: authUser
+  };
+};

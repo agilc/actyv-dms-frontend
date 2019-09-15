@@ -16,7 +16,9 @@ import {
   listDepartmentSuccess,
   listDepartmentFailed,
   deleteDepartmentSuccess,
-  deleteDepartmentFailed
+  deleteDepartmentFailed,
+  editDepartmentSuccess,
+  editDepartmentFailed
 } from 'actions/Department';
 
 function* listDepartmentRequest({ userId, adminId }) {
@@ -85,20 +87,21 @@ function* deleteDepartmentRequest({ payload }) {
   }
 }
 
-// function* deleteCategoryRequest({ payload }) {
-//   try {
-//     const requestURL = `${apiURL}category/${payload.id}`;
-//     const category = yield call(request, requestURL, {
-//       method: 'DELETE',
-//       headers: {
-//         'Content-Type': 'application/json'
-//       }
-//     });
-//     yield put(deleteCategorySuccess(category));
-//   } catch (error) {
-//     yield put(deleteCategoryFailed(error));
-//   }
-// }
+function* editDepartmentRequest({ payload }) {
+  try {
+    const requestURL = `${apiURL}department`;
+    const category = yield call(request, requestURL, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    yield put(editDepartmentSuccess(category));
+  } catch (error) {
+    yield put(editDepartmentFailed(error));
+  }
+}
 
 export function* listDepartment() {
   yield takeEvery(LIST_DEPARTMENT, listDepartmentRequest);
@@ -108,9 +111,9 @@ export function* addDepartment() {
   yield takeEvery(ADD_DEPARTMENT, addDepartmentRequest);
 }
 
-// export function* editDepartment() {
-//   yield takeEvery(EDIT_DEPARTMENT, editCategoryRequest);
-// }
+export function* editDepartment() {
+  yield takeEvery(EDIT_DEPARTMENT, editDepartmentRequest);
+}
 
 export function* deleteDepartment() {
   yield takeEvery(DELETE_DEPARTMENT, deleteDepartmentRequest);
@@ -120,7 +123,7 @@ export default function* rootSaga() {
   yield all([
     fork(listDepartment),
     fork(addDepartment),
-    // fork(editDepartment),
+    fork(editDepartment),
     fork(deleteDepartment)
   ]);
 }

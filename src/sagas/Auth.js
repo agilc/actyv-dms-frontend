@@ -16,7 +16,8 @@ import {
   showAuthMessage,
   userSignInSuccess,
   userListSuccess,
-  userListFailed
+  userListFailed,
+  userSignOutSuccess
 } from "actions/Auth";
 
 import { apiURL } from "constants/App";
@@ -34,6 +35,12 @@ const signInUserWithEmailPasswordRequest = async (email, password) =>
     .then(async authUser => {
       return authUser;
     })
+    .catch(error => error);
+
+const signOutRequest = async () =>
+  await auth
+    .signOut()
+    .then(authUser => authUser)
     .catch(error => error);
 
 function* createUserWithEmailPassword({ payload }) {
@@ -118,6 +125,21 @@ function* listUserRequest() {
   }
 }
 
+function* signOut() {
+  try {
+    const signOutUser = yield call(signOutRequest);
+    if (signOutUser === undefined) {
+      localStorage.removeItem("user_id");
+      localStorage.removeItem("appUser");
+      yield put(userSignOutSuccess(signOutUser));
+    } else {
+      yield put(showAuthMessage(signOutUser.message));
+    }
+  } catch (error) {
+    yield put(showAuthMessage(error));
+  }
+}
+
 export function* createUserAccount() {
   yield takeEvery(SIGNUP_USER, createUserWithEmailPassword);
 }
@@ -130,10 +152,15 @@ export function* listUser() {
   yield takeEvery(USER_LIST, listUserRequest);
 }
 
+export function* signOutUser() {
+  yield takeEvery(SIGNOUT_USER, signOut);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(createUserAccount),
     fork(signInUser),
-    fork(listUser)
+    fork(listUser),
+    fork(signOutUser)
   ]);
 }
