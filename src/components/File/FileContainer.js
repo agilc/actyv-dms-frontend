@@ -14,6 +14,8 @@ import {
   listFileFolder,
   deleteFileFolder
 } from 'actions/MyFiles';
+
+import { checkOutFile, checkInFile } from 'actions/Department';
 import { listCategories  } from 'actions/Category';
 
 class FileContainer extends React.Component {
@@ -30,7 +32,9 @@ class FileContainer extends React.Component {
       deleteConfirmation: false,
       container: null,
       containerId: null,
-      category: null
+      category: null,
+      fileUploadType: null,
+      fileUploadDetails: null
     }
   }
   
@@ -45,7 +49,6 @@ class FileContainer extends React.Component {
   }
 
   componentDidUpdate(prevProps, prevState){
-    debugger;
     if(!prevState.container && this.state.container){
       let dataObj = {
         container: this.state.container
@@ -75,6 +78,20 @@ class FileContainer extends React.Component {
       this.state.container && (dataObj.container = this.state.container);
       this.state.containerId && (dataObj.containerId = this.state.containerId);
       this.state.category && (dataObj.containerId = this.state.category);
+      this.props.listFileFolder(dataObj);
+    }
+
+    if(
+      (!prevProps.departmentFetchData.fileCheckIn &&
+      this.props.departmentFetchData.fileCheckIn) ||
+      (!prevProps.departmentFetchData.fileCheckOut &&
+      this.props.departmentFetchData.fileCheckOut)
+      )
+    {
+      let dataObj = {
+        container: this.state.container
+      }
+      this.state.containerId && (dataObj.containerId = this.state.containerId);
       this.props.listFileFolder(dataObj);
     }
   }
@@ -169,6 +186,30 @@ class FileContainer extends React.Component {
     this.setState({ deleteConfirmation: false });
   }
 
+  checkOutFile = () => {
+    this.props.checkOutFile(this.state.contextMenuSelectedItem._id);
+    this.onContextMenuClose();
+  }
+
+  checkInFileDialog = () => {
+    this.setState({
+      fileUploadType: "CHECKIN",
+      fileUploadDetails: this.state.contextMenuSelectedItem,
+      fileUploadDialog: true
+    });
+    this.onContextMenuClose();
+  }
+
+  checkInFile = data => {
+    data.updatedBy = this.props.appUser;
+    this.props.checkInFile(data);
+    this.setState({
+      fileUploadType: null,
+      fileUploadDetails: null,
+      fileUploadDialog: false
+    });
+  }
+
   getFileFolder = (item) => {
     return(
       <div 
@@ -183,22 +224,38 @@ class FileContainer extends React.Component {
             <img className="image-item" src={item.url}></img>
           : <i className={`zmdi zmdi-file file-item`}></i>
         }
+        {
+          item.checkoutStatus === 1 ? <i class="zmdi zmdi-lock-outline file-lock"></i> : ""
+        }
         <span>{item.name}</span>
       </div>
     )
   }
 
   fileListSection = () => {
+    let { contextMenuSelectedItem, menuAnchorElement, contextMenuOpen} = this.state;
     return (
       <React.Fragment>
         <Menu
-          anchorEl={this.state.menuAnchorElement}
-          open={this.state.contextMenuOpen}
+          anchorEl={menuAnchorElement}
+          open={contextMenuOpen}
           onClose={this.onContextMenuClose}
         >
-          <MenuItem onClick={() => this.selectFileFolder(this.state.contextMenuSelectedItem)}>Open</MenuItem>
+          <MenuItem onClick={() => this.selectFileFolder(contextMenuSelectedItem)}>Open</MenuItem>
           <MenuItem onClick={this.deleteFileFolderConfirmation}>Delete</MenuItem>
-        </Menu>
+          {
+            contextMenuSelectedItem && 
+            contextMenuSelectedItem.type === "FILE" && 
+            contextMenuSelectedItem.checkoutStatus === 0 && 
+            <MenuItem onClick={this.checkOutFile}>CheckOut</MenuItem>
+          }
+          {
+            contextMenuSelectedItem && 
+            contextMenuSelectedItem.type === "FILE" && 
+            contextMenuSelectedItem.checkoutStatus === 1 && 
+            <MenuItem onClick={this.checkInFileDialog}>CheckIn</MenuItem>
+          }
+          </Menu>
         <div className="d-flex file-list-wrapper bg-white">
           {
             this.props.fileFolderList && this.props.fileFolderList.map(item =>  this.getFileFolder(item) )
@@ -290,6 +347,9 @@ class FileContainer extends React.Component {
             saveFile={this.saveFile}
             container={ this.state.container }
             categoryList={ this.props.categoryList }
+            type={this.state.fileUploadType}
+            fileDetails={this.state.fileUploadDetails}
+            checkInFile={this.checkInFile}
           />
         }
         {
@@ -314,9 +374,10 @@ class FileContainer extends React.Component {
 
 }
 
-const mapStateToProps = ({ auth, myfiles, category }) => {
+const mapStateToProps = ({ auth, myfiles, category, department }) => {
   const { appUser } = auth;
   const { categoryList } = category;
+  const { departmentFetchData } = department;
   const { 
     fileFolderList,
     myfilesFetchingIndicators,
@@ -328,7 +389,8 @@ const mapStateToProps = ({ auth, myfiles, category }) => {
     fileFolderList,
     myfilesFetchingIndicators,
     myfilesFetchedIndicators,
-    categoryList
+    categoryList,
+    departmentFetchData
   };
 };
 
@@ -338,6 +400,8 @@ export default connect(
     createFileFolder,
     listFileFolder,
     deleteFileFolder,
-    listCategories
+    listCategories,
+    checkOutFile,
+    checkInFile
   }
 )(FileContainer);

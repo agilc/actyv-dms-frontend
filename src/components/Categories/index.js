@@ -85,7 +85,7 @@ class Categories extends React.Component {
     return (
       <div 
         key={item._id} 
-        className="d-flex justify-content-center pt-1 team-member-list-wrapper"
+        className="d-flex justify-content-center pt-1 team-member-list-wrapper cursor-pointer"
         onClick={() => this.selectCategory(item)}
       >
         <div className="w-20 bg-white p-3 d-flex">

@@ -20,6 +20,12 @@ class SignUp extends React.Component {
     }
   }
 
+  // componentDidUpdate() {
+  //   if (this.props.authUser !== null) {
+  //     this.props.history.push('/');
+  //   }
+  // }
+
   render() {
     const {
       name,
@@ -84,6 +90,10 @@ class SignUp extends React.Component {
 }
 
 const mapStateToProps = ({auth}) => {
+  const { authUser } = auth;
+  return{
+    authUser
+  }
 };
 
 export default connect(mapStateToProps, {

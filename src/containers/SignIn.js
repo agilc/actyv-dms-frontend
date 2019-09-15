@@ -17,6 +17,13 @@ class SignIn extends React.Component {
       password: ''
     }
   }
+
+  componentDidUpdate() {
+    if (this.props.authUser !== null) {
+      this.props.history.push('/');
+    }
+  }
+
   render() {
     const {
       email,

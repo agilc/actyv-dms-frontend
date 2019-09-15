@@ -164,3 +164,9 @@ body {
 .file-details-wrapper {
   height: calc(100vh - 175px);
 }
+
+.file-lock{
+  position: absolute;
+  color: red;
+  right: 15px;
+}

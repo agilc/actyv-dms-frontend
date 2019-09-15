@@ -10,7 +10,13 @@ import {
   EDIT_DEPARTMENT_FAILED,
   DELETE_DEPARTMENT,
   DELETE_DEPARTMENT_SUCCESS,
-  DELETE_DEPARTMENT_FAILED
+  DELETE_DEPARTMENT_FAILED,
+  CHECKOUT_FILE,
+  CHECKOUT_FILE_SUCCESS,
+  CHECKOUT_FILE_FAILED,
+  CHECKIN_FILE,
+  CHECKIN_FILE_SUCCESS,
+  CHECKIN_FILE_FAILED
 } from 'constants/ActionTypes';
 
 export const listDepartment = (userId, adminId) => {
@@ -94,6 +100,48 @@ export const deleteDepartmentSuccess = (data) => {
 export const deleteDepartmentFailed = (data) => {
   return {
     type: DELETE_DEPARTMENT_FAILED,
+    payload: data
+  };
+};
+
+export const checkOutFile = (id) => {
+  return {
+    type: CHECKOUT_FILE,
+    payload: id
+  };
+};
+
+export const checkOutFileSuccess = (data) => {
+  return {
+    type: CHECKOUT_FILE_SUCCESS,
+    payload: data
+  };
+};
+
+export const checkOutFileFailed = (data) => {
+  return {
+    type: CHECKOUT_FILE_FAILED,
+    payload: data
+  };
+};
+
+export const checkInFile = (id) => {
+  return {
+    type: CHECKIN_FILE,
+    payload: id
+  };
+};
+
+export const checkInFileSuccess = (data) => {
+  return {
+    type: CHECKIN_FILE_SUCCESS,
+    payload: data
+  };
+};
+
+export const checkInFileFailed = (data) => {
+  return {
+    type: CHECKIN_FILE_FAILED,
     payload: data
   };
 };

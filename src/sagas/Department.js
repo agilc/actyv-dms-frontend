@@ -1,4 +1,5 @@
 import {all, call, fork, put, takeEvery} from 'redux-saga/effects';
+import { saveAs } from 'file-saver';
 
 import { apiURL } from 'constants/App';
 import request from 'util/request';
@@ -7,7 +8,9 @@ import {
     LIST_DEPARTMENT, 
     ADD_DEPARTMENT,
     EDIT_DEPARTMENT,
-    DELETE_DEPARTMENT
+    DELETE_DEPARTMENT,
+    CHECKOUT_FILE,
+    CHECKIN_FILE
   } from 'constants/ActionTypes';
 
 import { 
@@ -18,7 +21,11 @@ import {
   deleteDepartmentSuccess,
   deleteDepartmentFailed,
   editDepartmentSuccess,
-  editDepartmentFailed
+  editDepartmentFailed,
+  checkOutFileSuccess,
+  checkOutFileFailed,
+  checkInFileSuccess,
+  checkInFileFailed
 } from 'actions/Department';
 
 function* listDepartmentRequest({ userId, adminId }) {
@@ -103,6 +110,38 @@ function* editDepartmentRequest({ payload }) {
   }
 }
 
+function* checkOutFileRequest({ payload }) {
+  try {
+    const requestURL = `${apiURL}files/checkout/${payload}`;
+    const file = yield call(request, requestURL, {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    });
+    yield put(checkOutFileSuccess(file));
+    saveAs(file.url + "?" + Math.random()*100000000000000000, file.name );
+  } catch (error) {
+    yield put(checkOutFileFailed(error));
+  }
+}
+
+function* checkInFileRequest({ payload }) {
+  try {
+    const requestURL = `${apiURL}files/checkin`;
+    const file = yield call(request, requestURL, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(payload)
+    });
+    yield put(checkInFileSuccess(file));
+  } catch (error) {
+    yield put(checkInFileFailed(error));
+  }
+}
+
 export function* listDepartment() {
   yield takeEvery(LIST_DEPARTMENT, listDepartmentRequest);
 }
@@ -119,11 +158,21 @@ export function* deleteDepartment() {
   yield takeEvery(DELETE_DEPARTMENT, deleteDepartmentRequest);
 }
 
+export function* checkOutFile() {
+  yield takeEvery(CHECKOUT_FILE, checkOutFileRequest);
+}
+
+export function* checkInFile() {
+  yield takeEvery(CHECKIN_FILE, checkInFileRequest);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(listDepartment),
     fork(addDepartment),
     fork(editDepartment),
-    fork(deleteDepartment)
+    fork(deleteDepartment),
+    fork(checkOutFile),
+    fork(checkInFile)
   ]);
 }

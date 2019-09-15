@@ -12,6 +12,7 @@ export const SIGNOUT_USER_SUCCESS = "signout_user_success";
 export const USER_LIST = "user_list";
 export const USER_LIST_SUCCESS = "user_list_success";
 export const USER_LIST_FAILED = "user_list_failed";
+export const RESET_PASSWORD_LINK = "reset_password_link";
 
 // Categories Const
 export const LIST_CATEGORIES = "list_categories";
@@ -51,3 +52,9 @@ export const LIST_FILE_FOLDER_FAILED = "list_file_folder_failed";
 export const DELETE_FILE_FOLDER = "delete_file_folder";
 export const DELETE_FILE_FOLDER_SUCCESS = "delete_file_folder_success";
 export const DELETE_FILE_FOLDER_FAILED = "delete_file_folder_failed";
+export const CHECKOUT_FILE = "checkout_file";
+export const CHECKOUT_FILE_SUCCESS = "checkout_file_success";
+export const CHECKOUT_FILE_FAILED = "checkout_file_failed";
+export const CHECKIN_FILE = "checkin_file";
+export const CHECKIN_FILE_SUCCESS = "checkin_file_success";
+export const CHECKIN_FILE_FAILED = "checkin_file_failed";

@@ -24,6 +24,17 @@ class FileUpload extends Component {
     }
   }
 
+  componentDidMount() {
+    let { fileDetails } = this.props;
+    if(fileDetails){
+      this.setState({
+        name: fileDetails.name,
+        fileUrl: fileDetails.url,
+        category: fileDetails.category
+      })
+    }
+  }
+
   handleDialogSave = () => {
     let dataObj = {
       name: this.state.name,
@@ -31,8 +42,15 @@ class FileUpload extends Component {
       container: this.props.container,
       url: this.state.fileUrl
     }
-    this.state.category && (dataObj.category = this.state.category);
-    this.props.saveFile(dataObj);
+    if(this.props.type === "CHECKIN"){
+      dataObj._id = this.props.fileDetails._id
+      this.state.category && (dataObj.category = this.state.category);
+      this.props.checkInFile(dataObj);
+    }
+    else{
+      this.state.category && (dataObj.category = this.state.category);
+      this.props.saveFile(dataObj);
+    }
   }
 
   handleDialogCancel = () => {
@@ -81,7 +99,7 @@ class FileUpload extends Component {
         >
           <DialogTitle className="pb-0">
             <div className="col-10">
-              <h4><b>Upload File</b></h4>
+              <h4><b>{`${this.props.type === "CHECKIN" ? "Checkin" : "Upload"} File`}</b></h4>
             </div>
           </DialogTitle>
           <DialogContent className="d-flex">

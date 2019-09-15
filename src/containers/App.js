@@ -4,6 +4,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
+import ResetPassword from "./ResetPassword";
 import MainApp from "app/index";
 import { setInitUrl } from "../actions/Auth";
 import "assets/styles/index.js";
@@ -61,9 +62,9 @@ class App extends Component {
               authUser={authUser}
               component={MainApp}
             />
-          {/* <Route path="/app" component={MainApp} /> */}
           <Route path="/signin" component={SignIn} />
           <Route path="/signup" component={SignUp} />
+          <Route path="/reset-password" component={ResetPassword} />
         </Switch>
       </div>
       );

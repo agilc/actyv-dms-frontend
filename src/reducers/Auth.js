@@ -3,7 +3,8 @@ import {
   SIGNUP_USER_SUCCESS,
   SIGNIN_USER_SUCCESS,
   USER_LIST_SUCCESS,
-  USER_LIST_FAILED
+  USER_LIST_FAILED,
+  SIGNOUT_USER_SUCCESS
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -29,7 +30,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         loader: false,
-        authUser: action.payload
+        authUser: action.payload._id
       }
     }
     case SIGNIN_USER_SUCCESS: {
@@ -50,6 +51,12 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         errorMessage: action.error.payload.message
+      }
+    }
+    case SIGNOUT_USER_SUCCESS: {
+      return {
+        ...state,
+        authUser: null
       }
     }
 

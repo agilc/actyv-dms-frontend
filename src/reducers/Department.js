@@ -7,15 +7,24 @@ import {
   LIST_DEPARTMENT_FAILED,
   DELETE_DEPARTMENT,
   DELETE_DEPARTMENT_SUCCESS,
-  DELETE_DEPARTMENT_FAILED
+  DELETE_DEPARTMENT_FAILED,
+  CHECKOUT_FILE,
+  CHECKOUT_FILE_SUCCESS,
+  CHECKOUT_FILE_FAILED,
+  CHECKIN_FILE,
+  CHECKIN_FILE_SUCCESS,
+  CHECKIN_FILE_FAILED
 } from 'constants/ActionTypes';
 
 const INIT_STATE = {
   loader: true,
   errorMessage: "",
   departmentList: {},
+  checkOutFile: null,
   departmentFetchData: {
-    deleteepartment: false
+    deleteepartment: false,
+    fileCheckOut: false,
+    fileCheckIn: false
   }
 };
 
@@ -90,6 +99,75 @@ export default (state = INIT_STATE, action) => {
         ...state, 
         loader: false,
         errorMessage: action.error.message
+      }      
+    }
+
+    case CHECKOUT_FILE: {
+      return {
+        ...state, 
+        loader: true,
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          fileCheckOut: false
+        }
+      }      
+    }
+
+    case CHECKOUT_FILE_SUCCESS: {
+      return {
+        ...state, 
+        loader: false,
+        checkOutFile: action.payload,
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          fileCheckOut: true
+        }
+      }      
+    }
+
+    case CHECKOUT_FILE_FAILED: {
+      return {
+        ...state, 
+        loader: false,
+        errorMessage: action.error.message,
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          fileCheckOut: false
+        }
+      }      
+    }
+
+    case CHECKIN_FILE: {
+      return {
+        ...state, 
+        loader: true,
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          fileCheckIn: false
+        }
+      }      
+    }
+
+    case CHECKIN_FILE_SUCCESS: {
+      return {
+        ...state, 
+        loader: false,
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          fileCheckIn: true
+        }
+      }      
+    }
+
+    case CHECKIN_FILE_FAILED: {
+      return {
+        ...state, 
+        loader: false,
+        errorMessage: action.error.message,
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          fileCheckIn: false
+        }
       }      
     }
     

@@ -11,7 +11,8 @@ import {
   SHOW_AUTH_MESSAGE,
   USER_LIST,
   USER_LIST_SUCCESS,
-  USER_LIST_FAILED
+  USER_LIST_FAILED,
+  RESET_PASSWORD_LINK
 } from 'constants/ActionTypes';
 
 export const userSignUp = (user) => {
@@ -84,5 +85,11 @@ export const userSignOutSuccess = (authUser) => {
   return {
     type: SIGNOUT_USER_SUCCESS,
     payload: authUser
+  };
+};
+export const appPasswordReset = (email) => {
+  return {
+    type: RESET_PASSWORD_LINK,
+    payload: email
   };
 };

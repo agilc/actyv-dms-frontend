@@ -9,7 +9,8 @@ import {
   SIGNIN_USER,
   SIGNOUT_USER,
   SIGNUP_USER,
-  USER_LIST
+  USER_LIST,
+  RESET_PASSWORD_LINK
 } from "constants/ActionTypes";
 import {
   userSignUpSuccess,
@@ -19,6 +20,7 @@ import {
   userListFailed,
   userSignOutSuccess
 } from "actions/Auth";
+import {NotificationManager} from 'react-notifications';
 
 import { apiURL } from "constants/App";
 import request from "util/request";
@@ -42,6 +44,19 @@ const signOutRequest = async () =>
     .signOut()
     .then(authUser => authUser)
     .catch(error => error);
+
+const passwordResetRequest = async (email) => {
+  console.log("em",email);
+  await auth
+    .sendPasswordResetEmail(email)
+    .then(authUser => {
+      console.log("success");
+      NotificationManager.success(`A password reset link has been sent. Please check your email.`)
+    })
+    .catch(error => 
+      NotificationManager.error(error.message)
+      );
+}
 
 function* createUserWithEmailPassword({ payload }) {
   const { email, password, name } = payload;
@@ -140,6 +155,17 @@ function* signOut() {
   }
 }
 
+function* resetPasswordLinkRequest({payload}) {
+  try {
+    const passwordReset = yield call(
+      passwordResetRequest,
+      payload
+    );
+  } catch (error) {
+    // yield put(showAuthMessage(error));
+  }
+}
+
 export function* createUserAccount() {
   yield takeEvery(SIGNUP_USER, createUserWithEmailPassword);
 }
@@ -156,11 +182,16 @@ export function* signOutUser() {
   yield takeEvery(SIGNOUT_USER, signOut);
 }
 
+export function* resetPasswordLink() {
+  yield takeEvery(RESET_PASSWORD_LINK, resetPasswordLinkRequest);
+}
+
 export default function* rootSaga() {
   yield all([
     fork(createUserAccount),
     fork(signInUser),
     fork(listUser),
-    fork(signOutUser)
+    fork(signOutUser),
+    fork(resetPasswordLink)
   ]);
 }
