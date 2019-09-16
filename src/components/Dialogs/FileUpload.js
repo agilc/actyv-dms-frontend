@@ -17,6 +17,13 @@ import {
 import { DatePicker } from "@material-ui/pickers";
 import "react-datepicker/dist/react-datepicker.css";
 
+import { 
+  fileUploadS3BucketName,
+  fileUploadS3RegionName,
+  fileUploadS3AccessKeyId,
+  fileUploadS3SecretAccessKey
+} from 'constants/App';
+
 class FileUpload extends Component {
   constructor(){
     super();
@@ -70,19 +77,12 @@ class FileUpload extends Component {
 
   onFilesChange =(fileArray) => {
     let file = fileArray[fileArray.length - 1];
-		// const config = {
-		// 	bucketName: "actyv-task",
-		// 	region: "ap-south-1",
-		// 	dirName: "files",
-		// 	accessKeyId: "AKIAID43U7GENKUAXTQA",
-		// 	secretAccessKey: "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"
-		// }
 		const config = {
-			bucketName: "zoko-web-facelift",
-			region: "ap-south-1",
+			bucketName: fileUploadS3BucketName,
+			region: fileUploadS3RegionName,
 			dirName: "files",
-			accessKeyId: "AKIAJWZLNMTW3WKSRNJA",
-			secretAccessKey: "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"
+			accessKeyId: fileUploadS3AccessKeyId,
+			secretAccessKey: fileUploadS3SecretAccessKey
 		}
 
 
