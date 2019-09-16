@@ -101,7 +101,7 @@ class CreateDepartment extends Component {
                 {userList.map(user => (
                   <MenuItem
                     key={user._id}
-                    value={user}
+                    value={user._id}
                   >
                     {user.name}
                   </MenuItem>
@@ -119,7 +119,7 @@ class CreateDepartment extends Component {
                 {userList.map(user => (
                   <MenuItem
                     key={user._id}
-                    value={user}
+                    value={user._id}
                   >
                     {user.name}
                   </MenuItem>

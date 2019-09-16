@@ -1,7 +1,6 @@
-import React, { useEffect,useRef } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import clsx from 'clsx';
-import Button from '@material-ui/core/Button';
 import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 import ErrorIcon from '@material-ui/icons/Error';
 import InfoIcon from '@material-ui/icons/Info';
@@ -46,14 +45,6 @@ const useStyles1 = makeStyles(theme => ({
   },
 }));
 
-function usePrevious(value) {
-  const ref = useRef();
-  useEffect(() => {
-    ref.current = value;
-  });
-  return ref.current;
-}
-
 function MySnackbarContentWrapper(props) {
   const classes = useStyles1();
   const { className, message, onClose, variant, ...other } = props;
@@ -86,29 +77,8 @@ MySnackbarContentWrapper.propTypes = {
   variant: PropTypes.oneOf(['error', 'info', 'success', 'warning']).isRequired,
 };
 
-const useStyles2 = makeStyles(theme => ({
-  margin: {
-    margin: theme.spacing(1),
-  },
-}));
-
 export default function Alert(props) {
-  const classes = useStyles2();
-  const [open, setOpen] = React.useState(false);
-
-  const prevShowMessage = usePrevious(props.showMessage);
-  
-  // useEffect(() => {
-  //   if(prevShowMessage !== props.showMessage) {
-  //     alert();
-  //     if(props.showMessage){
-  //       setOpen(true);
-  //       setTimeout(function(){ 
-  //         setOpen(false);
-  //       }, 3000);
-  //     }
-  //   }
-  // }, [prevShowMessage])
+  const [setOpen] = React.useState(false);
 
   function handleClose(event, reason) {
     if (reason === 'clickaway') {

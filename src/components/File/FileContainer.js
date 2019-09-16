@@ -226,7 +226,7 @@ class FileContainer extends React.Component {
           item.type === "FOLDER" ? 
             <i className={`zmdi zmdi-folder file-item`}></i>
           : item.url ? 
-            <img className="image-item" src={item.url}></img>
+            <img className="image-item" src={item.url} alt={item.name}></img>
           : <i className={`zmdi zmdi-file file-item`}></i>
         }
         {
@@ -252,12 +252,14 @@ class FileContainer extends React.Component {
             contextMenuSelectedItem && 
             contextMenuSelectedItem.type === "FILE" && 
             contextMenuSelectedItem.checkoutStatus === 0 && 
+            this.state.container === "DEPARTMENT" && 
             <MenuItem onClick={this.checkOutFile}>CheckOut</MenuItem>
           }
           {
             contextMenuSelectedItem && 
             contextMenuSelectedItem.type === "FILE" && 
             contextMenuSelectedItem.checkoutStatus === 1 && 
+            this.state.container === "DEPARTMENT" && 
             <MenuItem onClick={this.checkInFileDialog}>CheckIn</MenuItem>
           }
           </Menu>
@@ -276,15 +278,15 @@ class FileContainer extends React.Component {
     }
     else{
       this.state.selectedFolderArray.pop();
-      let dataObj = {
-        parentId: this.state.selectedFolderArray[this.state.selectedFolderArray.length-1]
-      }
-
-      this.state.container && (dataObj.container = this.state.container);
-      this.state.containerId && (dataObj.containerId = this.state.containerId);
-      this.state.category && (dataObj.category = this.state.category);
-      this.props.listFileFolder(dataObj);
     }
+    let dataObj = {
+      parentId: this.state.selectedFolderArray[this.state.selectedFolderArray.length-1]
+    }
+
+    this.state.container && (dataObj.container = this.state.container);
+    this.state.containerId && (dataObj.containerId = this.state.containerId);
+    this.state.category && (dataObj.category = this.state.category);
+    this.props.listFileFolder(dataObj);
   }
 
   render() {

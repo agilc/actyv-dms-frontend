@@ -1,4 +1,4 @@
-import {all, call, fork, put, takeEvery, takeLatest, delay} from 'redux-saga/effects';
+import {all, call, fork, put, takeEvery, takeLatest} from 'redux-saga/effects';
 
 import { apiURL } from 'constants/App';
 import request from 'util/request';
@@ -11,16 +11,12 @@ import {
 } from 'constants/ActionTypes';
 import {
   createFileFolderSuccess,
-  createFileFolderFailed,
   listFileFolderSuccess,
-  listFileFolderFailed,
   deleteFileFolderSuccess,
-  deleteFileFolderFailed
+  editFileFolderSuccess
 } from 'actions/MyFiles';
-import {
-  showAlertMessage,
-  hideAlertMessage
-} from "actions/Auth";
+
+import { showSagaAlert } from 'util/AlertMessage';
 
 function* createFileFolderRequest({ payload }) {
   try {
@@ -34,22 +30,16 @@ function* createFileFolderRequest({ payload }) {
     });
     yield put(createFileFolderSuccess(category));
     if(payload.type === "FILE")
-      yield put(showAlertMessage("File uploaded successfully", "success"));
+      yield showSagaAlert("File uploaded successfully", "success");
     else
-      yield put(showAlertMessage("Folder created successfully", "success"));
-
-    yield delay(3000);
-    yield put(hideAlertMessage());
+      yield showSagaAlert("Folder created successfully", "success");
   } catch (error) {
-    yield put(showAlertMessage("File/folder create failed", "error"));
-    yield delay(3000);
-    yield put(hideAlertMessage());
+    yield showSagaAlert(error.message, "error");
   }
 }
 
 function* listFileFolderRequest({ payload }) {
   try {
-    console.log(payload)
     let requestURL = `${apiURL}files?`;
     if(payload.type)
       requestURL += "&type=" + payload.type;
@@ -71,9 +61,7 @@ function* listFileFolderRequest({ payload }) {
     });
     yield put(listFileFolderSuccess(files));
   } catch (error) {
-    yield put(showAlertMessage("Delete failed", "error"));
-    yield delay(3000);
-    yield put(hideAlertMessage());
+    yield showSagaAlert(error.message, "error");
   }
 }
 
@@ -88,16 +76,11 @@ function* deleteFileFolderRequest({ payload }) {
     });
     yield put(deleteFileFolderSuccess(file));
     if(payload.type === "FILE")
-      yield put(showAlertMessage("File deleted successfully", "success"));
+      yield showSagaAlert("File deleted successfully", "success");
     else
-      yield put(showAlertMessage("Folder deleted successfully", "success"));
-
-    yield delay(3000);
-    yield put(hideAlertMessage());
+      yield showSagaAlert("Folder deleted successfully", "success");
   } catch (error) {
-    yield put(showAlertMessage("Delete failed", "error"));
-    yield delay(3000);
-    yield put(hideAlertMessage());
+    yield showSagaAlert(error.message, "error");
   }
 }
 
@@ -111,16 +94,10 @@ function* editFileFolderRequest({ payload }) {
       },
       body: JSON.stringify(payload)
     });
-    yield put(deleteFileFolderSuccess(file));
-    if(payload.type === "FILE")
-      yield put(showAlertMessage("File details updated successfully", "success"));
-
-    yield delay(3000);
-    yield put(hideAlertMessage());
+    yield put(editFileFolderSuccess(file));
+    yield showSagaAlert("File details updated successfully", "success");
   } catch (error) {
-    yield put(showAlertMessage("File details updation failed", "error"));
-    yield delay(3000);
-    yield put(hideAlertMessage());
+    yield showSagaAlert(error.message, "error");
   }
 }
 

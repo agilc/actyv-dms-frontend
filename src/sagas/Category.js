@@ -19,6 +19,7 @@ import {
     deleteCategorySuccess,
     deleteCategoryFailed
   } from 'actions/Category';
+  import { showSagaAlert } from 'util/AlertMessage';
 
 function* listCategoriesRequest() {
   try {
@@ -32,6 +33,7 @@ function* listCategoriesRequest() {
     yield put(listCategoriesSuccess(categories));
   } catch (error) {
     yield put(listCategoriesFailed(error));
+    yield showSagaAlert(error.message, "error");
   }
 }
 
@@ -46,9 +48,11 @@ function* addCategoryRequest({ payload }) {
       body: JSON.stringify(payload)
     });
     yield put(addCategorySuccess(category));
+    yield showSagaAlert("Category created successfully", "success");
     yield listCategoriesRequest();
   } catch (error) {
     yield put(addCategoryFailed(error));
+    yield showSagaAlert(error.message, "error");
   }
 }
 
@@ -63,9 +67,11 @@ function* editCategoryRequest({ payload }) {
       body: JSON.stringify(payload)
     });
     yield put(editCategorySuccess(category));
+    yield showSagaAlert("Category edited successfully", "success");
     yield listCategoriesRequest();
   } catch (error) {
     yield put(editCategoryFailed(error));
+    yield showSagaAlert(error.message, "error");
   }
 }
 
@@ -79,9 +85,11 @@ function* deleteCategoryRequest({ payload }) {
       }
     });
     yield put(deleteCategorySuccess(category));
+    yield showSagaAlert("Category deleted successfully", "success");
     yield listCategoriesRequest();
   } catch (error) {
     yield put(deleteCategoryFailed(error));
+    yield showSagaAlert(error.message, "error");
   }
 }
 

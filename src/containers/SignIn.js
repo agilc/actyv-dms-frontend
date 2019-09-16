@@ -4,7 +4,6 @@ import {connect} from 'react-redux';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Paper from '@material-ui/core/Paper';
-import Alert from 'components/Alert/index';
 
 import {
   userSignIn
@@ -30,7 +29,7 @@ class SignIn extends React.Component {
       email,
       password
     } = this.state;
-    const {showMessage, loader, alertMessage, messageType} = this.props;
+    const {showMessage, alertMessage, messageType} = this.props;
     return (
       <div className="d-flex justify-content-center">
         <Paper className="col-xl-4 col-lg-6 col-md-6 col-sm-12 p-4">
@@ -81,11 +80,8 @@ class SignIn extends React.Component {
               </form>
             </div>
           </div>
-          <Alert 
-            showMessage={showMessage}
-            message={alertMessage}
-            messageType={messageType}
-          />
+          {
+          showMessage && Object.keys(alertMessage).length && <span className="text-danger">{alertMessage}</span>}
         </Paper>
       </div>
     );

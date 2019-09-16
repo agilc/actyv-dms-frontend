@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { connect } from "react-redux";
 import { Redirect, Route, Switch } from "react-router-dom";
+import DateFnsUtils from '@date-io/date-fns';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 
 import SignIn from "./SignIn";
 import SignUp from "./SignUp";
@@ -41,7 +43,7 @@ class App extends Component {
       location,
       authUser,
       initURL,
-      isDirectionRTL
+      appUser
     } = this.props;
 
     if (location.pathname === "/") {
@@ -55,28 +57,31 @@ class App extends Component {
     }
 
     return (
-      <div className="app-main">
-        <Switch>
-          <RestrictedRoute
-              path={`${match.url}app`}
-              authUser={authUser}
-              component={MainApp}
-            />
-          <Route path="/signin" component={SignIn} />
-          <Route path="/signup" component={SignUp} />
-          <Route path="/reset-password" component={ResetPassword} />
-        </Switch>
-      </div>
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <div className="app-main">
+          <Switch>
+            <RestrictedRoute
+                path={`${match.url}app`}
+                authUser={authUser}
+                component={MainApp}
+              />
+            <Route path="/signin" component={SignIn} />
+            <Route path="/signup" component={SignUp} />
+            <Route path="/reset-password" component={ResetPassword} />
+          </Switch>
+        </div>
+      </MuiPickersUtilsProvider>
       );
   }
 }
 
 const mapStateToProps = ({ auth }) => {
 
-  const { authUser, initURL } = auth;
+  const { authUser, initURL,appUser } = auth;
   return {
     authUser,
-    initURL
+    initURL,
+    appUser
   };
 };
 

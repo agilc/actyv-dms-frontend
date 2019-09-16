@@ -6,7 +6,6 @@ import {Link} from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 
 import {
-  userGoogleSignIn,
   userSignUp
 } from 'actions/Auth';
 
@@ -20,11 +19,13 @@ class SignUp extends React.Component {
     }
   }
 
-  // componentDidUpdate() {
-  //   if (this.props.authUser !== null) {
-  //     this.props.history.push('/');
-  //   }
-  // }
+  componentDidUpdate(prevProps, prevState){
+    if(
+      this.props.authFetchedIndicators.signUp &&
+      !prevProps.authFetchedIndicators.signUp
+      )
+      this.props.history.push('/');
+  }
 
   render() {
     const {
@@ -37,7 +38,7 @@ class SignUp extends React.Component {
         <Paper className="col-xl-4 col-lg-6 col-md-6 col-sm-12 p-4">
           <div className="app-login-content">
             <div className="app-login-header mb-4">
-              <h3>Sign Up</h3>
+              <h3>Register</h3>
             </div>
 
             <div className="app-login-form">
@@ -75,7 +76,7 @@ class SignUp extends React.Component {
                     </Button>
                     <div className="d-flex flex-column">
                       <Link to="/signin">
-                        Login
+                        Back to Login
                       </Link>
                     </div>
                   </div>
@@ -90,9 +91,10 @@ class SignUp extends React.Component {
 }
 
 const mapStateToProps = ({auth}) => {
-  const { authUser } = auth;
+  const { authUser, authFetchedIndicators } = auth;
   return{
-    authUser
+    authUser,
+    authFetchedIndicators
   }
 };
 

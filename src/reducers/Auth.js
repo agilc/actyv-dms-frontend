@@ -6,7 +6,8 @@ import {
   SIGNIN_USER_SUCCESS,
   USER_LIST_SUCCESS,
   USER_LIST_FAILED,
-  SIGNOUT_USER_SUCCESS
+  SIGNOUT_USER_SUCCESS,
+  SIGNUP_USER
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -17,7 +18,10 @@ const INIT_STATE = {
   messageType:'',
   initURL: '',
   authUser: localStorage.getItem('user_id'),
-  appUser: JSON.parse(localStorage.getItem('appUser'))
+  appUser: JSON.parse(localStorage.getItem('appUser')),
+  authFetchedIndicators: {
+    signUp: false
+  }
 };
 
 
@@ -48,13 +52,29 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state,
         loader: false,
-        authUser: action.payload._id
+        authUser: action.payload,
+        authFetchedIndicators: {
+          ...state.authFetchedIndicators,
+          signUp: true
+        }
+      }
+    }
+    case SIGNUP_USER: {
+      return {
+        ...state,
+        loader: false,
+        authUser: action.payload._id,
+        authFetchedIndicators: {
+          ...state.authFetchedIndicators,
+          signUp: false
+        }
       }
     }
     case SIGNIN_USER_SUCCESS: {
       return {
         ...state,
-        loader: false,
+        loader: true,
+        initURL: '/',
         authUser: action.payload,
         appUser: JSON.parse(localStorage.getItem('appUser'))
       }

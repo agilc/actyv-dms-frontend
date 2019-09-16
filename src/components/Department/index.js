@@ -32,7 +32,10 @@ class Department extends React.Component {
   }
 
   handleDialogCloseClose = () => {
-    this.setState({createDepartmentDialog: false});
+    this.setState({
+      createDepartmentDialog: false,
+      editDepartment: null
+    });
   }
 
   createDepartment = (dataObj) => {
@@ -74,11 +77,17 @@ class Department extends React.Component {
 
   deleteDepartment = (data) => {
     this.props.deleteDepartment(data);
-    this.setState({ deleteConfirmation: false });
+    this.setState({ 
+      deleteConfirmation: false,
+      selectedDepartment: null
+    });
   }
 
   deleteDepartmentCancel = () =>{
-    this.setState({ deleteConfirmation: false });
+    this.setState({ 
+      deleteConfirmation: false,
+      selectedDepartment: null
+    });
   }
 
   selectDepartment = (dept) => {

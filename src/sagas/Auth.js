@@ -2,10 +2,8 @@ import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 
 import {
   auth,
-  googleAuthProvider
 } from "firebase/index";
 import {
-  SIGNIN_GOOGLE_USER,
   SIGNIN_USER,
   SIGNOUT_USER,
   SIGNUP_USER,
@@ -15,7 +13,6 @@ import {
 import {
   userSignUpSuccess,
   showAlertMessage,
-  hideAlertMessage,
   userSignInSuccess,
   userListSuccess,
   userListFailed,
@@ -47,11 +44,9 @@ const signOutRequest = async () =>
     .catch(error => error);
 
 const passwordResetRequest = async (email) => {
-  console.log("em",email);
   await auth
     .sendPasswordResetEmail(email)
     .then(authUser => {
-      console.log("success");
       NotificationManager.success(`A password reset link has been sent. Please check your email.`)
     })
     .catch(error => 
@@ -99,7 +94,6 @@ function* appSignIn(user, name) {
     localStorage.setItem("appUser", JSON.stringify(userData));
     yield put(userSignInSuccess(userData));
   } catch (error) {
-    console.log("error",error);
     yield put(showAlertMessage(error, "error"));
   }
 }
@@ -157,7 +151,7 @@ function* signOut() {
 
 function* resetPasswordLinkRequest({payload}) {
   try {
-    const passwordReset = yield call(
+    yield call(
       passwordResetRequest,
       payload
     );

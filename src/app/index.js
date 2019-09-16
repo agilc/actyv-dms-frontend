@@ -1,6 +1,5 @@
 import React from "react";
-import { Route, Switch, withRouter } from "react-router-dom";
-import { connect } from "react-redux";
+import { Route, Switch } from "react-router-dom";
 
 import MyFiles from 'app/routes/Home/index';
 import Header from 'components/Header';

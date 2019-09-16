@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { Paper, Button} from "@material-ui/core";
+import { Button} from "@material-ui/core";
 import moment from 'moment';
 
 import CreateCategory from 'components/Dialogs/CreateCategory';

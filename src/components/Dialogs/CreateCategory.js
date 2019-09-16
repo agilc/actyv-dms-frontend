@@ -6,8 +6,7 @@ import {
   TextField,
   Dialog, 
   Button,
-  Slide,
-  MenuItem
+  Slide
 } from "@material-ui/core";
 
 class CreateCategory extends Component {

@@ -12,6 +12,8 @@ import {
 import { 
   editFileFolder
 } from 'actions/MyFiles';
+import { DatePicker } from "@material-ui/pickers";
+import "react-datepicker/dist/react-datepicker.css";
 
 class FileDetails extends Component {
   constructor(){
@@ -22,7 +24,8 @@ class FileDetails extends Component {
       metadataKey: "",
       metadataValue: "",
       metadata : [],
-      category: ""
+      category: "",
+      expiryDate: null
     }
   }
 
@@ -30,7 +33,8 @@ class FileDetails extends Component {
     this.setState({
       name: this.props.file.name,
       metadata: this.props.file.metadata,
-      category: this.state.category
+      category: this.props.file.category,
+      expiryDate: this.props.file.expiry
     });
   }
 
@@ -50,7 +54,7 @@ class FileDetails extends Component {
 
   editFile = () => {
     let { file } = this.props;
-    let { category, metadata } = this.state;
+    let { category, metadata, expiryDate } = this.state;
 
     let dataObj = {
       id: file._id,
@@ -60,6 +64,7 @@ class FileDetails extends Component {
 
     category && (dataObj.category = category);
     metadata && (dataObj.metadata = metadata);
+    expiryDate && (dataObj.expiry = expiryDate);
 
     this.props.editFileFolder(dataObj);
   }
@@ -84,13 +89,13 @@ class FileDetails extends Component {
   }
 
   render() {
-    let { url } = this.props.file;
+    let { url, name } = this.props.file;
     let { categoryList } = this.props;
     return (
       <div>
         <div className="bg-white file-details-wrapper d-flex">
           <div className="col-6 d-flex justify-content-center">
-            <img className="pt-4" src={url}></img>
+            <img className="pt-4" src={url} alt={name}></img>
           </div>
           <div className="col-6 mt-1">
             <div className="col-10">
@@ -101,6 +106,14 @@ class FileDetails extends Component {
                 onChange={(e) => this.setState({ name: e.target.value })}
                 margin="normal"
                 fullWidth
+              />
+            </div>
+            <div className="col-10 mt-3">
+              <InputLabel className="mt-1 mr-1" htmlFor="name-multiple">Set expiry</InputLabel>
+              <DatePicker
+                value={this.state.expiryDate}
+                onChange={ (date) => this.setState({expiryDate: date})}
+                disablePast
               />
             </div>
             <div className="col-10 mt-2">

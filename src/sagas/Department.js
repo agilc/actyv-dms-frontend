@@ -12,7 +12,6 @@ import {
     CHECKOUT_FILE,
     CHECKIN_FILE
   } from 'constants/ActionTypes';
-
 import { 
   addDepartmentSuccess, 
   addDepartmentFailed,
@@ -27,9 +26,9 @@ import {
   checkInFileSuccess,
   checkInFileFailed
 } from 'actions/Department';
+import { showSagaAlert } from 'util/AlertMessage';
 
 function* listDepartmentRequest({ userId, adminId }) {
-  console.log("lis", userId, adminId);
   try {
     let result = {};
     if(userId){
@@ -58,6 +57,7 @@ function* listDepartmentRequest({ userId, adminId }) {
     yield put(listDepartmentSuccess(result));
   } catch (error) {
     yield put(listDepartmentFailed(error));
+    yield showSagaAlert(error.message, "error");
   }
 }
 
@@ -72,9 +72,10 @@ function* addDepartmentRequest({ payload }) {
       body: JSON.stringify(payload)
     });
     yield put(addDepartmentSuccess(department));
-    yield listDepartmentRequest({userId: payload.createdBy._id, adminId: payload.createdBy._id});
+    yield showSagaAlert("Department created successfully", "success");
   } catch (error) {
     yield put(addDepartmentFailed(error));
+    yield showSagaAlert(error.message, "error");
   }
 }
 
@@ -89,7 +90,9 @@ function* deleteDepartmentRequest({ payload }) {
     });
     yield put(deleteDepartmentSuccess(dept));
     yield listDepartmentRequest({userId: payload.user._id, adminId: payload.user._id});
+    yield showSagaAlert("Department deleted successfully", "success");    
   } catch (error) {
+    yield showSagaAlert(error.message, "error");
     yield put(deleteDepartmentFailed(error));
   }
 }
@@ -97,15 +100,17 @@ function* deleteDepartmentRequest({ payload }) {
 function* editDepartmentRequest({ payload }) {
   try {
     const requestURL = `${apiURL}department`;
-    const category = yield call(request, requestURL, {
+    const dept = yield call(request, requestURL, {
       method: 'PUT',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(payload)
     });
-    yield put(editDepartmentSuccess(category));
+    yield put(editDepartmentSuccess(dept));
+    yield showSagaAlert("Department updated successfully", "success");    
   } catch (error) {
+    yield showSagaAlert(error.message, "error");
     yield put(editDepartmentFailed(error));
   }
 }
@@ -121,7 +126,9 @@ function* checkOutFileRequest({ payload }) {
     });
     yield put(checkOutFileSuccess(file));
     saveAs(file.url + "?" + Math.random()*100000000000000000, file.name );
+    yield showSagaAlert("File checked out successfully", "success");
   } catch (error) {
+    yield showSagaAlert(error.message, "error");
     yield put(checkOutFileFailed(error));
   }
 }
@@ -137,8 +144,10 @@ function* checkInFileRequest({ payload }) {
       body: JSON.stringify(payload)
     });
     yield put(checkInFileSuccess(file));
+    yield showSagaAlert("File checked in successfully", "success");        
   } catch (error) {
     yield put(checkInFileFailed(error));
+    yield showSagaAlert(error.message, "error");
   }
 }
 

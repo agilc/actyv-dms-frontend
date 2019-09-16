@@ -40,7 +40,6 @@ export default (state = INIT_STATE, action) => {
     }
 
     case ADD_DEPARTMENT_SUCCESS: {
-      console.log("ss",action.payload);
       return {
         ...state, 
         loader: false

@@ -17,7 +17,6 @@ class ResetPassword extends React.Component {
     }
   }
     render(){
-			const {showMessage, loader, alertMessage} = this.props;
         return(
 					<div className="d-flex justify-content-center">
 						<Paper className="col-xl-4 col-lg-6 col-md-6 col-sm-12 p-4">

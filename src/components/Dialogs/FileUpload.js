@@ -14,6 +14,8 @@ import {
   InputLabel,
   MenuItem
 } from "@material-ui/core";
+import { DatePicker } from "@material-ui/pickers";
+import "react-datepicker/dist/react-datepicker.css";
 
 class FileUpload extends Component {
   constructor(){
@@ -21,7 +23,8 @@ class FileUpload extends Component {
     this.state = {
       fileUrl: "",
       category: "",
-      name: ""
+      name: "",
+      expiryDate: null
     }
   }
 
@@ -31,12 +34,18 @@ class FileUpload extends Component {
       this.setState({
         name: fileDetails.name,
         fileUrl: fileDetails.url,
-        category: fileDetails.category
+        category: fileDetails.category,
+        submitResult: false
       })
     }
   }
 
   handleDialogSave = () => {
+    this.setState({ submitResult: true });
+
+    if(!this.state.name || !this.state.fileUrl)
+      return;
+
     let dataObj = {
       name: this.state.name,
       type:"FILE",
@@ -50,6 +59,7 @@ class FileUpload extends Component {
     }
     else{
       this.state.category && (dataObj.category = this.state.category);
+      this.state.expiryDate && (dataObj.expiry = this.state.expiryDate);
       this.props.saveFile(dataObj);
     }
   }
@@ -60,7 +70,6 @@ class FileUpload extends Component {
 
   onFilesChange =(fileArray) => {
     let file = fileArray[fileArray.length - 1];
-    console.log("file",file);
 		// const config = {
 		// 	bucketName: "actyv-task",
 		// 	region: "ap-south-1",
@@ -90,20 +99,21 @@ class FileUpload extends Component {
   render() {
     let { categoryList } = this.props;
     return(
-      <div>
+      <div className="file-upload-dialog">
         <Dialog 
           open={true} 
           TransitionComponent={Slide} 
           onClose={this.handleDialogCancel}
           maxWidth="sm"
           fullWidth={true}
+          className="h-100"
         >
           <DialogTitle className="pb-0">
             <div className="col-10">
               <h4><b>{`${this.props.type === "CHECKIN" ? "Checkin" : "Upload"} File`}</b></h4>
             </div>
           </DialogTitle>
-          <DialogContent className="d-flex">
+          <DialogContent className="d-flex h-100 overflow-hidden">
             <div className="flex-grow-1">
               <Files
                 className='files-dropzone'
@@ -130,18 +140,37 @@ class FileUpload extends Component {
                     className="avatar-size"
                   />
                 </div>
+                {
+                  this.state.submitResult && 
+                  !this.state.fileUrl && 
+                  <span className="text-danger">File is mandatory</span>
+                }
               </Files>
             </div>
             <div className="flex-grow-5">
               <div className="col-10">
                 <TextField
                   id="name"
-                  label="Name"
+                  label="File Name"
                   value={this.state.name}
                   onChange={(e) => this.setState({ name: e.target.value })}
                   margin="normal"
                   fullWidth
                   className="mt-0"
+                  required
+                />
+                {
+                  this.state.submitResult && 
+                  !this.state.name && 
+                  <span className="text-danger">Folder name is mandatory</span>
+                }
+              </div>
+              <div className="col-10 mt-2">
+                <InputLabel className="mt-1 mr-1" htmlFor="name-multiple">Set expiry</InputLabel>
+                <DatePicker
+                  value={this.state.expiryDate}
+                  onChange={ (date) => this.setState({expiryDate: date})}
+                  disablePast
                 />
               </div>
               <div className="col-10 mt-2">

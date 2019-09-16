@@ -21,9 +21,9 @@ class ConfirmationDialog extends Component {
     this.props.successFunction();
   };
 
-  componentWillReceiveProps= (nextProps) => {
-    if(this.props.open !== nextProps.open)
-      this.setState({ open: nextProps.open });
+  componentDidUpdate(prevProps, prevState){
+    if(this.props.open !== prevProps.open)
+      this.setState({ open: this.props.open });
   }
 
 

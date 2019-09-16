@@ -6,8 +6,7 @@ import {
   TextField,
   Dialog, 
   Button,
-  Slide,
-  MenuItem
+  Slide
 } from "@material-ui/core";
 
 class CreateFolder extends Component {
@@ -15,11 +14,16 @@ class CreateFolder extends Component {
     super();
     this.state={
       name: "",
-      description: ""
+      description: "",
+      submitResult: false
     }
   }
 
   handleDialogSave = () => {
+    this.setState({ submitResult: true });
+
+    if(!this.state.name)
+      return;
     let dataObj = {
       name: this.state.name,
       type: "FOLDER",
@@ -60,7 +64,13 @@ class CreateFolder extends Component {
                 margin="normal"
                 fullWidth
                 className="mt-0"
+                required
               />
+              {
+                this.state.submitResult && 
+                !this.state.name && 
+                <span className="text-danger">Folder name is mandatory</span>
+              }
             </div>
             <div className="col-10">
               <TextField
