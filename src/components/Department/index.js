@@ -30,6 +30,13 @@ class Department extends React.Component {
     this.props.getUserList();
     this.props.listDepartment(this.props.appUser._id, this.props.appUser._id);
   }
+  componentDidUpdate(prevProps, prevState){
+    if(
+      this.props.departmentFetchData.createDepartment && 
+      !prevProps.departmentFetchData.createDepartment
+      )
+        this.props.listDepartment(this.props.appUser._id, this.props.appUser._id);
+  }
 
   handleDialogCloseClose = () => {
     this.setState({
@@ -41,12 +48,12 @@ class Department extends React.Component {
   createDepartment = (dataObj) => {
     if(!this.state.editDepartment){
       dataObj.createdBy = this.props.appUser;
-      this.props.addDepartment(dataObj);
+      this.props.addDepartment(dataObj,this.props.appUser);
     }
     else{
       dataObj.id = this.state.editDepartment._id;
       dataObj.updatedBy = this.props.appUser;
-      this.props.editDepartment(dataObj);
+      this.props.editDepartment(dataObj, this.props.appUser);
     }
     
     this.setState({ 
@@ -201,12 +208,13 @@ class Department extends React.Component {
 }
 const mapStateToProps = ({ auth, department }) => {
   const { appUser, userList } = auth;
-  const { departmentList } = department;
+  const { departmentList, departmentFetchData } = department;
 
   return {
     userList,
     appUser,
-    departmentList
+    departmentList,
+    departmentFetchData
   };
 };
 

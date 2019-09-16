@@ -19,7 +19,8 @@ class CreateDepartment extends Component {
       name: "",
       description: "",
       admins: [],
-      users: []
+      users: [],
+      submitResult: false
     }
   }
 
@@ -36,14 +37,17 @@ class CreateDepartment extends Component {
   }
 
   handleDialogSave = () => {
+    this.setState({ submitResult: true });
+    if(!this.state.name || this.state.admins.length <= 0)
+      return;
     let dataObj = {
       name: this.state.name,
-      description: this.state.description,
       admins: this.state.admins,
       users: this.state.users
     }
 
     this.props.createDepartment(dataObj);
+    this.state.description && (dataObj.description = this.state.description);
   }
 
   handleDialogCancel = () => {
@@ -63,7 +67,7 @@ class CreateDepartment extends Component {
         >
           <DialogTitle className="pb-0">
             <div className="col-10">
-              <h4><b>New Department</b></h4>
+              <h4><b>{this.props.editDepartment ? "Edit" : "New" } Department</b></h4>
             </div>
           </DialogTitle>
           <DialogContent>
@@ -76,7 +80,13 @@ class CreateDepartment extends Component {
                 margin="normal"
                 fullWidth
                 className="mt-0"
+                required
               />
+              {
+                this.state.submitResult && 
+                !this.state.name && 
+                <span className="text-danger">Department name is mandatory</span>
+              }
             </div>
             <div className="col-10">
               <TextField
@@ -107,6 +117,11 @@ class CreateDepartment extends Component {
                   </MenuItem>
                 ))}
               </Select>
+              {
+                this.state.submitResult && 
+                this.state.admins.length <= 0 && 
+                <span className="text-danger">Admin is mandatory</span>
+              }
             </div>
             <div className="col-10 pt-3">
               <InputLabel htmlFor="name-multiple">Select Users</InputLabel>

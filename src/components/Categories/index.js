@@ -34,7 +34,8 @@ class Categories extends React.Component {
     this.setState({createCategoryDialog: false});
   }
 
-  editCategory = (item) => {
+  editCategory = (event,item) => {
+    event.stopPropagation();
     this.setState({ 
       editingCategory: item, 
       createCategoryDialog: true
@@ -58,7 +59,8 @@ class Categories extends React.Component {
     })
   }
 
-  deleteCategoryConfirmation = (item) => {
+  deleteCategoryConfirmation = (event,item) => {
+    event.stopPropagation();
     let data = {
       id: item._id
     };
@@ -101,11 +103,11 @@ class Categories extends React.Component {
           <div>{moment(item.createdAt).format("DD-MMM-YYYY")}</div>
         </div>
         <div className="w-15 bg-white pt-3 d-flex">
-          <div className="pr-2 d-flex action-text cursor-pointer" onClick={() => this.editCategory(item)}>
+          <div className="pr-2 d-flex action-text cursor-pointer" onClick={(event) => this.editCategory(event,item)}>
             <i className="zmdi zmdi-edit p-1"/>
             <div>Edit</div>
           </div>
-          <div className="pr-2 d-flex action-text cursor-pointer" onClick={() => this.deleteCategoryConfirmation(item)}>
+          <div className="pr-2 d-flex action-text cursor-pointer" onClick={(event) => this.deleteCategoryConfirmation(event,item)}>
             <i className="zmdi zmdi-delete p-1"/>
             <div>Delete</div>
           </div>

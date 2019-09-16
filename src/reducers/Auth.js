@@ -7,7 +7,8 @@ import {
   USER_LIST_SUCCESS,
   USER_LIST_FAILED,
   SIGNOUT_USER_SUCCESS,
-  SIGNUP_USER
+  SIGNUP_USER,
+  RESET_PASSWORD_LINK_FAILED
 } from "constants/ActionTypes";
 
 const INIT_STATE = {
@@ -97,7 +98,12 @@ export default (state = INIT_STATE, action) => {
         authUser: null
       }
     }
-
+    case RESET_PASSWORD_LINK_FAILED: {
+      return {
+        ...state,
+        errorMessage: action.error.payload.message
+      }
+    }
     default:
       return state;
   }

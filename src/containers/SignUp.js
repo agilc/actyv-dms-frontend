@@ -33,8 +33,9 @@ class SignUp extends React.Component {
       email,
       password
     } = this.state;
+    const {showMessage, alertMessage} = this.props;
     return (
-      <div className="d-flex justify-content-center">
+      <div className="d-flex justify-content-center pt-5">
         <Paper className="col-xl-4 col-lg-6 col-md-6 col-sm-12 p-4">
           <div className="app-login-content">
             <div className="app-login-header mb-4">
@@ -84,6 +85,7 @@ class SignUp extends React.Component {
               </form>
             </div>
           </div>
+          {showMessage && Object.keys(alertMessage).length && <span className="text-danger">{alertMessage}</span>}
         </Paper>
       </div>
     )
@@ -91,10 +93,17 @@ class SignUp extends React.Component {
 }
 
 const mapStateToProps = ({auth}) => {
-  const { authUser, authFetchedIndicators } = auth;
+  const { 
+    authUser, 
+    authFetchedIndicators,
+    alertMessage, 
+    showMessage
+   } = auth;
   return{
     authUser,
-    authFetchedIndicators
+    authFetchedIndicators,
+    alertMessage,
+    showMessage
   }
 };
 

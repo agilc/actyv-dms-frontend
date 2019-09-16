@@ -15,6 +15,7 @@ export const USER_LIST = "user_list";
 export const USER_LIST_SUCCESS = "user_list_success";
 export const USER_LIST_FAILED = "user_list_failed";
 export const RESET_PASSWORD_LINK = "reset_password_link";
+export const RESET_PASSWORD_LINK_FAILED = "reset_password_link_failed";
 
 // Categories Const
 export const LIST_CATEGORIES = "list_categories";

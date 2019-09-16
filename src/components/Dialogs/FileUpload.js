@@ -162,7 +162,7 @@ class FileUpload extends Component {
                 {
                   this.state.submitResult && 
                   !this.state.name && 
-                  <span className="text-danger">Folder name is mandatory</span>
+                  <span className="text-danger">File name is mandatory</span>
                 }
               </div>
               <div className="col-10 mt-2">

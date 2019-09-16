@@ -18,7 +18,6 @@ import {
   userListFailed,
   userSignOutSuccess
 } from "actions/Auth";
-import {NotificationManager} from 'react-notifications';
 
 import { apiURL } from "constants/App";
 import request from "util/request";
@@ -46,12 +45,8 @@ const signOutRequest = async () =>
 const passwordResetRequest = async (email) => {
   await auth
     .sendPasswordResetEmail(email)
-    .then(authUser => {
-      NotificationManager.success(`A password reset link has been sent. Please check your email.`)
-    })
-    .catch(error => 
-      NotificationManager.error(error.message)
-      );
+    .then(authUser => authUser)
+    .catch(error => error );
 }
 
 function* createUserWithEmailPassword({ payload }) {

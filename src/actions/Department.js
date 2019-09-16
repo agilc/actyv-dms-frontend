@@ -41,10 +41,11 @@ export const listDepartmentFailed = (data) => {
   };
 };
 
-export const addDepartment = (data) => {
+export const addDepartment = (data, user) => {
   return {
     type: ADD_DEPARTMENT,
-    payload: data
+    payload: data,
+    user
   };
 };
 
@@ -62,10 +63,11 @@ export const addDepartmentFailed = (data) => {
   };
 };
 
-export const editDepartment = (data) => {
+export const editDepartment = (data, user) => {
   return {
     type: EDIT_DEPARTMENT,
-    payload: data
+    payload: data,
+    user
   };
 };
 

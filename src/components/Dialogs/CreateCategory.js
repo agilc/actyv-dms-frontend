@@ -14,7 +14,8 @@ class CreateCategory extends Component {
     super();
     this.state={
       name: "",
-      description: ""
+      description: "",
+      submitResult: false
     }
   }
 
@@ -25,10 +26,14 @@ class CreateCategory extends Component {
   }
 
   handleDialogSave = () => {
+    this.setState({ submitResult: true });
+    if(!this.state.name)
+      return;
+
     let dataObj = {
-      name: this.state.name,
-      description: this.state.description
-    }
+      name: this.state.name
+    };
+    this.state.description && (dataObj.description = this.state.description);
     this.props.successFunction(dataObj);
   }
 
@@ -61,7 +66,13 @@ class CreateCategory extends Component {
                 margin="normal"
                 fullWidth
                 className="mt-0"
+                required
               />
+              {
+                this.state.submitResult && 
+                !this.state.name && 
+                <span className="text-danger">Category name is mandatory</span>
+              }
             </div>
             <div className="col-10">
               <TextField

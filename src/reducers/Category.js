@@ -42,7 +42,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message
+        // errorMessage: action.error.message
       }      
     }
 
@@ -65,7 +65,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: true,
-        errorMessage: action.error.message
+        // errorMessage: action.error.message
       }      
     }
 
@@ -88,7 +88,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.payload.message
+        // errorMessage: action.error.payload.message
       }      
     }
 
@@ -111,7 +111,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.payload.message
+        // errorMessage: action.error.payload.message
       }      
     }
 

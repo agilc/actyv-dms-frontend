@@ -22,7 +22,8 @@ const INIT_STATE = {
   departmentList: {},
   checkOutFile: null,
   departmentFetchData: {
-    deleteepartment: false,
+    deleteDepartment: false,
+    createDepartment: false,
     fileCheckOut: false,
     fileCheckIn: false
   }
@@ -35,14 +36,22 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: true,
-        errorMessage: ""
+        errorMessage: "",
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          createDepartment: false
+        }
       }      
     }
 
     case ADD_DEPARTMENT_SUCCESS: {
       return {
         ...state, 
-        loader: false
+        loader: false,
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          createDepartment: true
+        }
       }      
     }
 
@@ -50,7 +59,11 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message
+        // errorMessage: action.error.message,
+        departmentFetchData: {
+          ...state.departmentFetchData,
+          createDepartment: false
+        }
       }      
     }
 
@@ -74,7 +87,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message
+        // errorMessage: action.error.message
       }      
     }
 
@@ -97,7 +110,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message
+        // errorMessage: action.error.message
       }      
     }
 
@@ -128,7 +141,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message,
+        // errorMessage: action.error.message,
         departmentFetchData: {
           ...state.departmentFetchData,
           fileCheckOut: false
@@ -162,7 +175,7 @@ export default (state = INIT_STATE, action) => {
       return {
         ...state, 
         loader: false,
-        errorMessage: action.error.message,
+        // errorMessage: action.error.message,
         departmentFetchData: {
           ...state.departmentFetchData,
           fileCheckIn: false

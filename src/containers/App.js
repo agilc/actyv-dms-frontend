@@ -42,8 +42,7 @@ class App extends Component {
       match,
       location,
       authUser,
-      initURL,
-      appUser
+      initURL
     } = this.props;
 
     if (location.pathname === "/") {

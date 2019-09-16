@@ -11,7 +11,8 @@ import {
   USER_LIST_SUCCESS,
   USER_LIST_FAILED,
   RESET_PASSWORD_LINK,
-  HIDE_MESSAGE
+  HIDE_MESSAGE,
+  RESET_PASSWORD_LINK_FAILED
 } from 'constants/ActionTypes';
 
 export const userSignUp = (user) => {
@@ -97,5 +98,10 @@ export const appPasswordReset = (email) => {
   return {
     type: RESET_PASSWORD_LINK,
     payload: email
+  };
+};
+export const appPasswordResetFailed = (email) => {
+  return {
+    type: RESET_PASSWORD_LINK_FAILED
   };
 };

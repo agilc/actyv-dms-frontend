@@ -61,7 +61,7 @@ function* listDepartmentRequest({ userId, adminId }) {
   }
 }
 
-function* addDepartmentRequest({ payload }) {
+function* addDepartmentRequest({ payload, user }) {
   try {
     const requestURL = `${apiURL}department`;
     const department = yield call(request, requestURL, {
@@ -72,6 +72,7 @@ function* addDepartmentRequest({ payload }) {
       body: JSON.stringify(payload)
     });
     yield put(addDepartmentSuccess(department));
+    yield listDepartmentRequest({userId: user._id, adminId: payload._id});
     yield showSagaAlert("Department created successfully", "success");
   } catch (error) {
     yield put(addDepartmentFailed(error));
@@ -97,7 +98,7 @@ function* deleteDepartmentRequest({ payload }) {
   }
 }
 
-function* editDepartmentRequest({ payload }) {
+function* editDepartmentRequest({ payload, user }) {
   try {
     const requestURL = `${apiURL}department`;
     const dept = yield call(request, requestURL, {
@@ -108,6 +109,7 @@ function* editDepartmentRequest({ payload }) {
       body: JSON.stringify(payload)
     });
     yield put(editDepartmentSuccess(dept));
+    yield listDepartmentRequest({userId: user._id, adminId: user._id});
     yield showSagaAlert("Department updated successfully", "success");    
   } catch (error) {
     yield showSagaAlert(error.message, "error");
