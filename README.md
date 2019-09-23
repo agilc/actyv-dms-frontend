@@ -1,6 +1,7 @@
 DMS:
 
 Its the DMS UI, it is buit using React with Redux.
+Docker container is added for CI/CD.
 
 The main features are:
 
